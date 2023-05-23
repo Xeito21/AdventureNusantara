@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 461367599}
   - component: {fileID: 461367601}
   - component: {fileID: 461367600}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform Temporary (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485641423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1124,9 +1124,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1571830142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6351fea7f6d870c44bd4b35d44294f8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 63cd0496ae544214ba3d99e50206ad4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 1571830145}
+  groundCheck: {fileID: 485641424}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1574389765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1143,7 @@ GameObject:
   - component: {fileID: 1574389766}
   - component: {fileID: 1574389768}
   - component: {fileID: 1574389767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform Temporary (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1249,7 +1254,7 @@ GameObject:
   - component: {fileID: 1602189696}
   - component: {fileID: 1602189697}
   - component: {fileID: 1602189698}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform Temporary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1511,7 +1516,7 @@ GameObject:
   - component: {fileID: 1907059429}
   - component: {fileID: 1907059431}
   - component: {fileID: 1907059430}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform Temporary (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
