@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Heart
+  - Coin
   layers:
   - Default
   - TransparentFX
