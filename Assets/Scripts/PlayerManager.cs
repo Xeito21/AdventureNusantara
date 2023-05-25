@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
@@ -12,7 +13,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject[] soalObject;
     public GameObject GameOverUI;
     public GameObject PauseGame;
-    
+    public UnityEvent Die;
+
     void Awake() 
     {
         Instance = this;
@@ -26,6 +28,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // GAME PAUSE SCRIPT
     public void GamePause()
     {
         // Game Pause
@@ -39,9 +42,10 @@ public class PlayerManager : MonoBehaviour
         PauseGame.SetActive(false);
         Time.timeScale = 1;    
     }
+    // GAME PAUSE SCRIPT
     
     public void MinHealth () {
-        jumlahSoal -= 1;
+        jumlahNyawa -= 1;
         HealthUpdate();
 
         if (jumlahNyawa <= 0)
@@ -85,6 +89,11 @@ public class PlayerManager : MonoBehaviour
         {
             soalObject[i].SetActive(true);
         }
+    }
+
+    private void PlayerDie() 
+    {
+        Die.Invoke();
     }
 
 }
