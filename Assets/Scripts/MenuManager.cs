@@ -1,26 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pausePanel;
-    public void PauseGame()
+
+    public void StartBtn()
+    {
+        SceneManager.LoadScene(1);
+    }
+    
+    public void PauseBtn()
     {
         Time.timeScale = 0f;
-        pausePanel.SetActive(true);
+        GameManager.Instance.PauseGame();
     }
 
-    public void ResumeGame()
+    public void ResumeBtn()
     {
-        Time .timeScale = 1f;
-        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+        GameManager.Instance.ResumeGame();
+    }
+
+    public void QuitBtn()
+    {
+        Application.Quit();
     }
 
     public void BackToMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void FullscreenResolution()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    public void ToggleMute()
+    {
+        AudioManager.Instance.ToggleMute();
     }
 }

@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager Instance;
+    [SerializeField] private GameObject pausePanel;
+
+
+    private void Awake()
     {
-        
+        Instance = this;
+    }
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        pausePanel.SetActive(true);
+        AudioManager.Instance.Pause();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResumeGame()
     {
-        
+        Time.timeScale = 1f;
+        pausePanel.SetActive(false);
+        AudioManager.Instance.Resume();
     }
 }
