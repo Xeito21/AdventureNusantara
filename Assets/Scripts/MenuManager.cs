@@ -12,7 +12,7 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-    
+
     public void PauseBtn()
     {
         Time.timeScale = 0f;
