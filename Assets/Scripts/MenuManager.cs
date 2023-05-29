@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    private static MenuManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void StartBtn()
     {
@@ -23,6 +29,11 @@ public class MenuManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         GameManager.Instance.ResumeGame();
+    }
+
+    public void RetryBtn()
+    {
+        GameManager.Instance.RetryGame();
     }
 
     public void QuitBtn()
