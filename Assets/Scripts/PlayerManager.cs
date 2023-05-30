@@ -11,17 +11,22 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private int jumlahNyawa = 3;
     [SerializeField] private int jumlahSoal = 0;
     [SerializeField] private int jumlahCoin = 0;
+    [SerializeField] private int jumlahKey = 0;
 
     [Header("GameObject")]
     [SerializeField] private GameObject[] nyawaObject;
-    [SerializeField] private GameObject[] soalObject;
     [SerializeField] private GameObject GameOverUI;
 
     [Header("TextObject")]
     [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI[] labelKalah;
 
+
     public UnityEvent Die;
+
+    [Header("References")]
+    public QuestionManager questionManager;
     public static PlayerManager Instance;
 
     void Awake() 
@@ -29,7 +34,7 @@ public class PlayerManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
@@ -44,6 +49,9 @@ public class PlayerManager : MonoBehaviour
                 IncreaseCoins(1);
                 Destroy(other.gameObject);
                 break;
+            case "Key":
+                questionManager.PopUpQuiz();
+                break;
             default:
                 break;
         }
@@ -56,11 +64,6 @@ public class PlayerManager : MonoBehaviour
         {
             GameOver();
         }
-    }
-
-    public void GetQuestion () {
-        jumlahSoal += 1;
-        SoalUpdateCount();
     }
 
     void GameOver() 
@@ -97,23 +100,15 @@ public class PlayerManager : MonoBehaviour
     public void IncreaseCoins(int counter)
     {
         jumlahCoin += counter;
+        Debug.Log(jumlahCoin.ToString());
         coinText.text = jumlahCoin.ToString();
     }
 
-
-    void SoalUpdateCount()
+    public void IncreaseKeys(int counter)
     {
-        foreach (GameObject Horizontal in soalObject)
-        {
-            Horizontal.SetActive(false);
-        }
-
-        for (int i = 0; i < jumlahSoal; i++)
-        {
-            soalObject[i].SetActive(true);
-        }
+        jumlahKey += counter;
+        keyText.text = jumlahKey.ToString();
     }
-
 
     private void PlayerDie() 
     {

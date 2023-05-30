@@ -4,12 +4,12 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
-
+    [Header("Insert Audio")]
     [SerializeField] private AudioMixerGroup musicMixerGroup;
     [SerializeField] private AudioMixerGroup soundEffectsMixerGroup;
     [SerializeField] private Sound[] sounds;
 
+    public static AudioManager Instance;
 
     private bool muted = false;
 

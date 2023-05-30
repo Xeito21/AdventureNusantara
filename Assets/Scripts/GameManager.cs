@@ -5,8 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    [Header("GameObject")]
     [SerializeField] private GameObject pausePanel;
+
+    [Header("References")]
+    public static GameManager Instance;
 
 
     private void Awake()

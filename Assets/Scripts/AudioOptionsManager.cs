@@ -4,14 +4,16 @@ using TMPro;
 
 public class AudioOptionsManager : MonoBehaviour
 {
-    public static float musicVolume { get; private set; }
-    public static float soundEffectsVolume { get; private set; }
-
+    [Header("Volume Slider")]
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider soundEffectsSlider;
+
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI musicSliderText;
     [SerializeField] private TextMeshProUGUI soundEffectsSliderText;
 
+    public static float musicVolume { get; private set; }
+    public static float soundEffectsVolume { get; private set; }
     private const string MusicVolumeKey = "MusicVolume";
     private const string SoundEffectsVolumeKey = "SoundEffectsVolume";
 

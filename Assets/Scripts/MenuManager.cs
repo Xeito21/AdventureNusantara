@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    private static MenuManager instance;
+    public static MenuManager instance;
 
     private void Awake()
     {

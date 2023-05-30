@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Value")]
+    [SerializeField] private float speed;
+
+    [Header("ToPoint")]
     [SerializeField] private GameObject startPoint;
     [SerializeField] private GameObject endPoint;
-    [SerializeField] private float speed;
+
     private Rigidbody2D musuh;
     private Transform currentPoint;
 
