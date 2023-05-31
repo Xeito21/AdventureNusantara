@@ -7,16 +7,16 @@ public class QuestionManager : MonoBehaviour
 {
     public TextMeshProUGUI questionText;
     public TextMeshProUGUI titleText;
-    public Question[] questionArray;
+    public Question[] quizArray;
     public string[] multiChoice;
     public TextMeshProUGUI[] multiChoiceText;
-    public int indexQuestion = 0;
-    public int answerQuestion;
+    public int indexQuiz = 0;
+    public int answerKey;
     public GameObject correctAnswer;
     public GameObject doneQuiz;
     public GameObject retryButton;
     public TextMeshProUGUI doneQuizText;
-    public int maxQuestion=3;
+    public int maxQuestion=1;
     public int correctScore = 0;
     public TextMeshProUGUI correctAnswerText;
 
@@ -27,49 +27,60 @@ public class QuestionManager : MonoBehaviour
 
     void GenerateQuestion()
     {
-        questionText.text = questionArray[indexQuestion].question;
-        multiChoice = questionArray[indexQuestion].multiChoice;
-        answerQuestion = questionArray[indexQuestion].answer;
-        for(int i = 0; i < multiChoice.Length; i++){
+        titleText.text = quizArray[indexQuiz].tittleQuiz;
+        questionText.text = quizArray[indexQuiz].question;
+        multiChoice = quizArray[indexQuiz].multiChoice;
+        answerKey = quizArray[indexQuiz].answer;
+        
+        for(int i = 0; i < multiChoice.Length; i++)
+        {
             multiChoiceText[i].text=  multiChoice[i];
         }
     }
 
-    public void MultiChoiceOnClick(int answerIndex){
+    public void MultiChoiceOnClick(int answerIndex) 
+    {
         correctAnswer.gameObject.SetActive(true);
-        indexQuestion++;
-        if(answerIndex == answerQuestion){
-            //jika Benar
-            correctAnswerText.text = "Jawaban Benar!";
+        indexQuiz++;
+
+        if(answerIndex == answerKey)
+        {
+            correctAnswerText.text = "Jawaban anda benar!!";
             correctScore++;
-        }else{
-            //Jika Salah            
-            correctAnswerText.text = "Jawaban Salah!";
+        }
+        else
+        {
+            correctAnswerText.text = "Jawaban anda salah!!";
         }
     }
 
-    public void AfterChoice(){
-        if(indexQuestion < maxQuestion){
-            //next soal
+    public void AfterChoice()
+    {
+        if(indexQuiz < maxQuestion)
+        {
             GenerateQuestion();
         }
-        else{
+        else
+        {
             doneQuiz.SetActive(true);
-            if(correctScore == maxQuestion){
+
+            if(correctScore == maxQuestion)
+            {
                 doneQuizText.text = "Selamat Kuis Selesai dengan jawaban Benar semua!";
                 retryButton.SetActive(false);
-            }else{
-                 doneQuizText.text = "Maaf terdapat soal dengan jawaban yang salah, coba lagi?";
-                 retryButton.SetActive(true);
             }
-            //Kuis selesai
+            else
+            {
+                doneQuizText.text = "Maaf terdapat soal dengan jawaban yang salah, coba lagi?";
+                retryButton.SetActive(true);
+            }
         }
     }
 
     public void Retry(){
         doneQuiz.SetActive(false);
         correctAnswer.SetActive(false);  
-        indexQuestion = 0;
+        indexQuiz = 0;
         correctScore = 0;
         GenerateQuestion();
     }
