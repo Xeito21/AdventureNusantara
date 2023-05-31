@@ -9,7 +9,6 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Player Status")]
     [SerializeField] private int jumlahNyawa = 3;
-    [SerializeField] private int jumlahSoal = 0;
     [SerializeField] private int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
 
@@ -21,9 +20,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI[] labelKalah;
-
-
-    public UnityEvent Die;
 
     [Header("References")]
     public QuestionManager questionManager;
@@ -108,11 +104,6 @@ public class PlayerManager : MonoBehaviour
     {
         jumlahKey += counter;
         keyText.text = jumlahKey.ToString();
-    }
-
-    private void PlayerDie() 
-    {
-        Die.Invoke();
     }
 
 }

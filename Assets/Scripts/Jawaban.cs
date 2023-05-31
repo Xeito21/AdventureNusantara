@@ -8,12 +8,10 @@ public class Jawaban : MonoBehaviour
     {
         if (isBenar)
         {
-            Debug.Log("benar");
             questionManager.Benar();
         }
         else
         {
-            Debug.Log("salah");
             questionManager.Salah();
         }
     }
