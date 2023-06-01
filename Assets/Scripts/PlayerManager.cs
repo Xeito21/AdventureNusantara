@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [Header("GameObject")]
     [SerializeField] private GameObject[] nyawaObject;
     [SerializeField] private GameObject GameOverUI;
+    [SerializeField] public Animator animPlayer;
 
     [Header("TextObject")]
     [SerializeField] private TextMeshProUGUI coinText;
