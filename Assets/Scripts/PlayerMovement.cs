@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 8f;
     private float jumpPower = 16f;
     private bool isFacingRight = true;
- private Vector2 directionalInput;
+    private Vector2 directionalInput;
 
-    [SerializeField] Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
 
@@ -25,44 +25,53 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-        {  PlayJumpAnimation();
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);            
+        {
+            PlayJumpAnimation();
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-        PlayerManager.Instance.animPlayer.SetBool("isGrounded",isGrounded());
+        PlayerManager.Instance.animPlayer.SetBool("isGrounded", isGrounded());
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         SetDirectionalInput(directionalInput);
     }
 
-    private void FixedUpdate() {
-  
-          //  PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
-    
-        rb.velocity = new Vector2(horizontal * speed , rb.velocity.y);
+    private void FixedUpdate()
+    {
+
+        //  PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
+
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
-    void PlayJumpAnimation(){
-        PlayerManager.Instance.animPlayer.SetTrigger("jump" );
+    void PlayJumpAnimation()
+    {
+        PlayerManager.Instance.animPlayer.SetTrigger("jump");
     }
- public void SetDirectionalInput(Vector2 input)
+    public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
-         PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
-     
-        if(directionalInput.x <0){
+        PlayerManager.Instance.animPlayer.SetFloat("speed", Mathf.Abs(horizontal));
+
+        if (directionalInput.x < 0)
+        {
             //hadap kiri
-            transform.localScale = new Vector3(-1,transform.localScale.y,transform.localScale.z);
-        }else  if(directionalInput.x >0){
-            //hadap kanan
-             transform.localScale = new Vector3(1,transform.localScale.y,transform.localScale.z);
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
         }
-       // print(directionalInput);
+        else if (directionalInput.x > 0)
+        {
+            //hadap kanan
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        // print(directionalInput);
 
     }
-    private bool isGrounded () {
+    private bool isGrounded()
+    {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-        
+
     }
-    private void Flip () {
-        if(isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f){
+    private void Flip()
+    {
+        if (isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)
+        {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
