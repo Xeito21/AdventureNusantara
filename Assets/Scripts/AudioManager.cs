@@ -10,7 +10,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private Sound[] sounds;
 
     public static AudioManager Instance;
-
     private bool muted = false;
 
 

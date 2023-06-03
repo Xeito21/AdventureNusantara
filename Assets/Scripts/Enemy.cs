@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D musuh;
     private Transform currentPoint;
+    public PlayerManager playerManager;
 
 
     private void Start()
@@ -58,5 +59,13 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(startPoint.transform.position, 0.5f);
         Gizmos.DrawWireSphere(endPoint.transform.position, 0.5f);
         Gizmos.DrawLine(startPoint.transform.position, endPoint.transform.position);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            playerManager.TerkenaDamage();
+        }
     }
 }

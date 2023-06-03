@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,38 +10,51 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Player Status")]
     [SerializeField] private int jumlahNyawa = 3;
-    [SerializeField] private int jumlahSoal = 0;
     [SerializeField] private int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
+
+    [Header("Player")]
+    [SerializeField] private SpriteRenderer karakterSprite;
+    Vector2 checkPointPosisi;
+    
 
     [Header("GameObject")]
     [SerializeField] private GameObject[] nyawaObject;
     [SerializeField] private GameObject GameOverUI;
+
+    [Header("Animator")]
+    [SerializeField] public Animator animPlayer;
 
     [Header("TextObject")]
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI[] labelKalah;
 
-
-    public UnityEvent Die;
-
     [Header("References")]
     public QuestionManager questionManager;
+    public PlayerMovement playerMovement;
+    public CameraManager cameraManager;
     public static PlayerManager Instance;
+
+
 
     void Awake() 
     {
         Instance = this;
+        playerMovement = GetComponent<PlayerMovement>();
+        cameraManager = FindObjectOfType<CameraManager>();
+
+    }
+
+    private void Start()
+    {
+        checkPointPosisi = transform.position;
     }
 
     public void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
-            case "Enemy":
-                MinHealth();
-                break;
             case "Heart":
                 IncreaseHearts(1);
                 Destroy(other.gameObject);
@@ -52,19 +66,25 @@ public class PlayerManager : MonoBehaviour
             case "Key":
                 questionManager.PopUpQuiz();
                 break;
+            case "Obstacle":
+                TerkenaDamage();
+                break;
             default:
                 break;
         }
     }
-    public void MinHealth () {
+    public void TerkenaDamage()
+    {
         jumlahNyawa -= 1;
         HealthUpdate();
+        StartCoroutine(BlinkSprite(0.5f));
 
         if (jumlahNyawa <= 0)
         {
             GameOver();
         }
     }
+
 
     void GameOver() 
     {
@@ -110,9 +130,42 @@ public class PlayerManager : MonoBehaviour
         keyText.text = jumlahKey.ToString();
     }
 
-    private void PlayerDie() 
+    IEnumerator BlinkSprite(float duration)
     {
-        Die.Invoke();
+        float elapsedTime = 0f;
+        Color originalColor = karakterSprite.color;
+        Color blinkColor = Color.red;
+
+        while (elapsedTime < duration)
+        {
+            karakterSprite.color = blinkColor;
+            yield return new WaitForSeconds(0.1f);
+            karakterSprite.color = originalColor;
+            yield return new WaitForSeconds(0.1f);
+            elapsedTime += 0.2f;
+        }
+
+        karakterSprite.color = originalColor;
+    }
+
+    public void UpdateCheckpoint(Vector2 pos)
+    {
+        checkPointPosisi = pos;
+    }
+
+
+    public IEnumerator HidupKembali(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        playerMovement.rb.velocity = Vector2.zero;
+        transform.localScale = Vector3.zero;
+        playerMovement.rb.simulated = false;
+        transform.position = checkPointPosisi;
+        transform.localScale = Vector3.one;
+        HealthUpdate();
+        cameraManager.EnableVirtualCamera();
+        playerMovement.rb.simulated = true;
     }
 
 }

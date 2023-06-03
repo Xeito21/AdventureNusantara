@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 163cf4f00073389438ed618d34b55770
+guid: 62ad7fcf2aebe1a409dc0218a62e5d3e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy sprites_0
+      name: CheckPoint_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 830
-        width: 316
-        height: 409
+        x: 0
+        y: 250
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,41 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17c81ad00431b1441b65b9773324dfda
-      internalID: -673773957
+      spriteID: 121ff6d32771ccb4299fa809ff9d5822
+      internalID: 527675314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy sprites_1
+      name: CheckPoint_1
       rect:
         serializedVersion: 2
-        x: 413
-        y: 840
-        width: 316
-        height: 409
-      alignment: 9
-      pivot: {x: 0.5, y: 0.41768402}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c11ed720c42453e41a2d751d74d67710
-      internalID: 1691104202
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy sprites_2
-      rect:
-        serializedVersion: 2
-        x: 827
-        y: 847
-        width: 316
-        height: 409
+        x: 166
+        y: 250
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89238e1cc91bde441904e51f62007280
-      internalID: 1585732135
+      spriteID: fecb15c271e2a3147be5479d3c05a254
+      internalID: -1372891084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy sprites_3
+      name: CheckPoint_2
       rect:
         serializedVersion: 2
-        x: 1282
-        y: 847
-        width: 316
-        height: 409
+        x: 332
+        y: 250
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ead6b294d713d146a5d1db637b7b917
-      internalID: -841335630
+      spriteID: e09b9666e4fd3824d80a386de0f8f0d5
+      internalID: 808870559
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy sprites_4
+      name: CheckPoint_3
       rect:
         serializedVersion: 2
-        x: 1658
-        y: 847
-        width: 316
-        height: 409
+        x: 0
+        y: 0
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0cd816d1327a76488a7a1335a54ced7
-      internalID: -1364274968
+      spriteID: 4879596bd498dae4388a7c7f7ae762e6
+      internalID: -1818017847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy sprites_5
+      name: CheckPoint_4
       rect:
         serializedVersion: 2
-        x: 46
-        y: 414
-        width: 316
-        height: 409
+        x: 166
+        y: 0
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,20 +215,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11e468b1cb8aeef438eda885ef7af463
-      internalID: -456807576
+      spriteID: 81381e171aa2a4a4fbfaabbf5ded2cb2
+      internalID: 1712159079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy sprites_6
+      name: CheckPoint_5
       rect:
         serializedVersion: 2
-        x: 475
-        y: 416
-        width: 316
-        height: 409
+        x: 332
+        y: 0
+        width: 166.66667
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,29 +236,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f93c1d462b19f7e4fb6dce9a22b116b0
-      internalID: 1507654728
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy sprites_7
-      rect:
-        serializedVersion: 2
-        x: 871
-        y: 424
-        width: 316
-        height: 409
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8923b15938b9e5848bd27af699a5510e
-      internalID: -1381516798
+      spriteID: 912d3fb11762346478fc6fad3021d6b6
+      internalID: 2104138948
       vertices: []
       indices: 
       edges: []
@@ -295,14 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enemy sprites_1: 1691104202
-      Enemy sprites_5: -456807576
-      Enemy sprites_6: 1507654728
-      Enemy sprites_0: -673773957
-      Enemy sprites_3: -841335630
-      Enemy sprites_2: 1585732135
-      Enemy sprites_4: -1364274968
-      Enemy sprites_7: -1381516798
+      CheckPoint_3: -1818017847
+      CheckPoint_1: -1372891084
+      CheckPoint_2: 808870559
+      CheckPoint_5: 2104138948
+      CheckPoint_0: 527675314
+      CheckPoint_4: 1712159079
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

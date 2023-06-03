@@ -4,17 +4,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class QuestionManager : MonoBehaviour
 {
     [Header("Value")]
     [SerializeField] private int scoreCounter;
-    [SerializeField] private int scorePlayer = 500;
+    [SerializeField] private int scorePlayer;
     [SerializeField] private int pertanyaanSekarang;
     [SerializeField] private int jawabanBenarCounter = 0;
-    private int totalPertanyaan = 0;
     private int currentIndex = 0;
+    private int totalPertanyaan = 0;
 
+
+    [Header("Waktu")]
+    [SerializeField] private float waktuMaksimal = 30.0f;
+    [SerializeField] private float displayDuration = 2f;
+    [SerializeField] private float penaltyTime = 5.0f;
+    private float waktuMulai;
+    private float waktuSekarang;
 
     [Header("List Pertanyaan dan Jawaban")]
     [SerializeField] private List<TanyaDanJawab> originalJnA;
@@ -28,9 +34,23 @@ public class QuestionManager : MonoBehaviour
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI[] pesanHasil;
+    [SerializeField] private TextMeshProUGUI cekJawaban;
     [SerializeField] private TextMeshProUGUI scoreHasil;
     [SerializeField] private TextMeshProUGUI hasilJawaban;
     [SerializeField] private TextMeshProUGUI pertanyaanText;
+    [SerializeField] private TextMeshProUGUI waktuText;
+
+
+    [Header("Warna Teks")]
+    [SerializeField] private Color benarColor = Color.green;
+    [SerializeField] private Color salahColor = Color.red;
+
+
+    [Header("Boolean")]
+    private bool isGameOver = false;
+    private bool isQuizStarted = false;
+    private bool isJawabanBenarTertekan = false;
+    private bool isJawabanSalahTertekan = false;
 
     [Header("References")]
     public PlayerManager playerManager;
@@ -44,8 +64,39 @@ public class QuestionManager : MonoBehaviour
         generatePertanyaan();
     }
 
+    private void Update()
+    {
+        if (!isGameOver && isQuizStarted)
+        {
+            waktuSekarang = DapatSisaWaktu();
+            waktuText.text = Mathf.FloorToInt(waktuSekarang).ToString();
+
+            if (waktuSekarang <= 0)
+            {
+                WaktuHabis();
+            }
+            else if (waktuSekarang <= 11)
+            {
+                waktuText.color = Color.red;
+            }
+            else
+            {
+                waktuText.color = Color.white;
+            }
+        }
+    }
+
+
+    private void WaktuHabis()
+    {
+        isGameOver = true;
+        waktuText.text = "0";
+        GameOverQuiz();
+    }
+
     public void GameOverQuiz()
     {
+        isQuizStarted = false;
         gameOverQuizPanel.SetActive(true);
         quizPanel.SetActive(false);
 
@@ -57,6 +108,7 @@ public class QuestionManager : MonoBehaviour
         {
             hasilJawaban.text = scoreCounter + "/" + jawabanBenarCounter + "\nBerlatih lagi!";
         }
+
         int randomIndex = Random.Range(0, pesanHasil.Length);
 
         for (int i = 0; i < pesanHasil.Length; i++)
@@ -70,14 +122,56 @@ public class QuestionManager : MonoBehaviour
                 pesanHasil[i].gameObject.SetActive(false);
             }
         }
+
+
+        float sisaWaktuBerakhir = DapatSisaWaktu();
+        float waktuPengalian = sisaWaktuBerakhir / waktuMaksimal;
+
+        int minScore = 300;
+        int maxScore = 700;
+
+        int scoreRange = maxScore - minScore;
+        int scoredPoints = Mathf.RoundToInt(scoreRange * waktuPengalian * jawabanBenarCounter);
+
+        scorePlayer += scoredPoints;
+        scoreHasil.text = scorePlayer.ToString();
     }
 
     public void Benar()
     {
-        scoreCounter += 1;
-        JnA.RemoveAt(pertanyaanSekarang);
-        jawabanBenarCounter += 1;
-        CheckJawabanBenar();
+        if (!isJawabanBenarTertekan)
+        {
+            isJawabanBenarTertekan = true;
+            scoreCounter += 1;
+            JnA.RemoveAt(pertanyaanSekarang);
+            jawabanBenarCounter += 1;
+            CheckJawabanBenar();
+            StartCoroutine(ShowJawabanText("Benar", benarColor));
+        }
+        else
+        {
+            StartCoroutine(ShowJawabanText("Sudah Terjawab", Color.red));
+        }
+    }
+
+    public void Salah()
+    {
+        if (!isJawabanSalahTertekan)
+        {
+            isJawabanSalahTertekan = true;
+            JnA.RemoveAt(pertanyaanSekarang);
+            CheckJawabanBenar();
+            StartCoroutine(ShowJawabanText("Salah", salahColor));
+            waktuMulai -= penaltyTime;
+            if (waktuSekarang < 0)
+            {
+                waktuSekarang = 0;
+            }
+        }
+        else
+        {
+            StartCoroutine(ShowJawabanText("Sudah Terjawab", Color.red));
+        }
 
 
     }
@@ -87,29 +181,14 @@ public class QuestionManager : MonoBehaviour
         gameOverQuizPanel.SetActive(false);
     }
 
-
     public void CheckJawabanBenar()
     {
-
         if (jawabanBenarCounter >= 3)
         {
-            scorePlayer += 500;
-            scoreHasil.text = scorePlayer.ToString();
             playerManager.IncreaseKeys(1);
             KeyDestroy();
             GameOverQuiz();
-
         }
-        else
-        {
-            generatePertanyaan();
-        }
-    }
-
-    public void Salah()
-    {
-        JnA.RemoveAt(pertanyaanSekarang);
-        CheckJawabanBenar();
     }
 
     private void SetJawaban()
@@ -127,6 +206,8 @@ public class QuestionManager : MonoBehaviour
 
     private void generatePertanyaan()
     {
+        isJawabanBenarTertekan = false;
+        isJawabanSalahTertekan = false;
         if (JnA.Count > 0)
         {
             pertanyaanSekarang = Random.Range(0, JnA.Count);
@@ -135,22 +216,26 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Habis");
             GameOverQuiz();
         }
-
     }
 
     public void PopUpQuiz()
     {
-        quizPanel.SetActive(true);
-        scoreCounter = 0;
-        pertanyaanSekarang = 0;
-        jawabanBenarCounter = 0;
-        totalPertanyaan = originalJnA.Count;
-        JnA.Clear();
-        JnA.AddRange(originalJnA);
-
+        if (!isQuizStarted)
+        {
+            waktuMulai = Time.time;
+            waktuSekarang = waktuMaksimal;
+            isGameOver = false;
+            quizPanel.SetActive(true);
+            scoreCounter = 0;
+            pertanyaanSekarang = 0;
+            jawabanBenarCounter = 0;
+            totalPertanyaan = originalJnA.Count;
+            JnA.Clear();
+            JnA.AddRange(originalJnA);
+            isQuizStarted = true;
+        }
     }
 
     private void KeyDestroy()
@@ -160,5 +245,30 @@ public class QuestionManager : MonoBehaviour
             Destroy(keyObject[currentIndex]);
             currentIndex++;
         }
+    }
+
+
+    private float DapatSisaWaktu()
+    {
+        float waktuBerlalu = Time.time - waktuMulai;
+        float sisaWaktu = waktuMaksimal - waktuBerlalu;
+
+        if (sisaWaktu < 0)
+        {
+            sisaWaktu = 0;
+        }
+
+        return sisaWaktu;
+
+    }
+
+    private IEnumerator ShowJawabanText(string text, Color color)
+    {
+        cekJawaban.text = text;
+        cekJawaban.color = color;
+        cekJawaban.gameObject.SetActive(true);
+        yield return new WaitForSeconds(displayDuration);
+        cekJawaban.gameObject.SetActive(false);
+        generatePertanyaan();
     }
 }
