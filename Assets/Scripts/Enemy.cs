@@ -12,8 +12,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject startPoint;
     [SerializeField] private GameObject endPoint;
 
+
+    [Header("Enemy")]
     private Rigidbody2D musuh;
     private Transform currentPoint;
+
+    [Header("References")]
     public PlayerManager playerManager;
 
 

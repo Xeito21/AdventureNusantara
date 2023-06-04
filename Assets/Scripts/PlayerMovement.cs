@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float horizontal;
-    private float speed = 8f;
-    private float jumpPower = 16f;
-    private bool isFacingRight = true;
-    private Vector2 directionalInput;
-
-    [SerializeField] public Rigidbody2D rb;
+    [Header("Player")]
+    [SerializeField] private float jumpPower;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] public Rigidbody2D rb;
 
-    // Update is called once per frame
+    [Header("Transform")]
+    private float horizontal;
+    private float speed = 8f;
+    private Vector2 directionalInput;
+
+    [Header("Boolean")]
+    private bool isFacingRight = true;
+
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -63,11 +66,11 @@ public class PlayerMovement : MonoBehaviour
         // print(directionalInput);
 
     }
-    private bool isGrounded()
+    public bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-
     }
+
     private void Flip()
     {
         if (isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)

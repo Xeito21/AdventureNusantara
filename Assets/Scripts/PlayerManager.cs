@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private SpriteRenderer karakterSprite;
+    [SerializeField] private Collider2D karakterCol;
     Vector2 checkPointPosisi;
     
 
@@ -32,6 +34,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("References")]
     public QuestionManager questionManager;
+    public AudioManager audioManager;
     public PlayerMovement playerMovement;
     public CameraManager cameraManager;
     public static PlayerManager Instance;
@@ -41,9 +44,10 @@ public class PlayerManager : MonoBehaviour
     void Awake() 
     {
         Instance = this;
+        questionManager = FindObjectOfType<QuestionManager>();
         playerMovement = GetComponent<PlayerMovement>();
         cameraManager = FindObjectOfType<CameraManager>();
-
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Start()
@@ -83,12 +87,30 @@ public class PlayerManager : MonoBehaviour
         {
             GameOver();
         }
+        else
+        {
+            StartCoroutine(TerpentalKenaDamage(0.5f));
+        }
+    }
+
+    public void DamageJatuh()
+    {
+        jumlahNyawa -= 1;
+        HealthUpdate();
+        StartCoroutine(BlinkSprite(0.5f));
+
+        if (jumlahNyawa <= 0)
+        {
+            GameOver();
+        }
     }
 
 
     void GameOver() 
     {
-        Time.timeScale = 0f;
+        karakterSprite.GetComponent<SpriteRenderer>().enabled = false;
+        playerMovement.rb.simulated = false;
+        audioManager.Stop("BGM");
         GameOverUI.SetActive(true);
         int randomIndex = Random.Range(0, labelKalah.Length);
         for (int i = 0; i < labelKalah.Length; i++)
@@ -156,16 +178,47 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator HidupKembali(float duration)
     {
-        yield return new WaitForSeconds(duration);
+        if(jumlahNyawa > 0)
+        {
+            yield return new WaitForSeconds(duration);
+            playerMovement.rb.velocity = Vector2.zero;
+            transform.localScale = Vector3.zero;
+            playerMovement.rb.simulated = false;
+            transform.position = checkPointPosisi;
+            transform.localScale = Vector3.one;
+            HealthUpdate();
+            cameraManager.EnableVirtualCamera();
+            playerMovement.rb.simulated = true;
+        }
+        else
+        {
+            cameraManager.DisableVirtualCamera();
+            playerMovement.rb.simulated = false;
+        }
 
-        playerMovement.rb.velocity = Vector2.zero;
-        transform.localScale = Vector3.zero;
-        playerMovement.rb.simulated = false;
-        transform.position = checkPointPosisi;
-        transform.localScale = Vector3.one;
-        HealthUpdate();
-        cameraManager.EnableVirtualCamera();
-        playerMovement.rb.simulated = true;
     }
+
+    private IEnumerator TerpentalKenaDamage(float duration)
+    {
+        karakterCol.enabled = false;
+        playerMovement.rb.simulated = false;
+        Vector2 originalPosition = transform.position;
+        Vector2 targetPosition = originalPosition + new Vector2(2f, 0f);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector2.Lerp(originalPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        yield return new WaitForSeconds(duration);
+        karakterCol.enabled = true; 
+        playerMovement.rb.simulated = true; 
+    }
+
 
 }
