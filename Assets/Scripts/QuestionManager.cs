@@ -1,87 +1,274 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestionManager : MonoBehaviour
 {
-    public TextMeshProUGUI questionText;
-    public TextMeshProUGUI titleText;
-    public Question[] quizArray;
-    public string[] multiChoice;
-    public TextMeshProUGUI[] multiChoiceText;
-    public int indexQuiz = 0;
-    public int answerKey;
-    public GameObject correctAnswer;
-    public GameObject doneQuiz;
-    public GameObject retryButton;
-    public TextMeshProUGUI doneQuizText;
-    public int maxQuestion=1;
-    public int correctScore = 0;
-    public TextMeshProUGUI correctAnswerText;
+    [Header("Value")]
+    [SerializeField] private int scoreCounter;
+    [SerializeField] private int scorePlayer;
+    [SerializeField] private int pertanyaanSekarang;
+    [SerializeField] private int jawabanBenarCounter = 0;
+    private int currentIndex = 0;
+    private int totalPertanyaan = 0;
 
-    void start()
+
+    [Header("Waktu")]
+    [SerializeField] private float waktuMaksimal = 30.0f;
+    [SerializeField] private float displayDuration = 2f;
+    [SerializeField] private float penaltyTime = 5.0f;
+    private float waktuMulai;
+    private float waktuSekarang;
+
+    [Header("List Pertanyaan dan Jawaban")]
+    [SerializeField] private List<TanyaDanJawab> originalJnA;
+    [SerializeField] private List<TanyaDanJawab> JnA;
+
+    [Header("GameObject")]
+    [SerializeField] private GameObject quizPanel;
+    [SerializeField] private GameObject gameOverQuizPanel;
+    [SerializeField] private GameObject[] opsi;
+    [SerializeField] private GameObject[] keyObject;
+
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI[] pesanHasil;
+    [SerializeField] private TextMeshProUGUI cekJawaban;
+    [SerializeField] private TextMeshProUGUI scoreHasil;
+    [SerializeField] private TextMeshProUGUI hasilJawaban;
+    [SerializeField] private TextMeshProUGUI pertanyaanText;
+    [SerializeField] private TextMeshProUGUI waktuText;
+
+
+    [Header("Warna Teks")]
+    [SerializeField] private Color benarColor = Color.green;
+    [SerializeField] private Color salahColor = Color.red;
+
+
+    [Header("Boolean")]
+    private bool isGameOver = false;
+    private bool isQuizStarted = false;
+    private bool isJawabanBenarTertekan = false;
+    private bool isJawabanSalahTertekan = false;
+
+    [Header("References")]
+    public PlayerManager playerManager;
+
+    private void Start()
     {
-        GenerateQuestion();
+        totalPertanyaan = JnA.Count;
+        currentIndex = 0;
+        originalJnA = new List<TanyaDanJawab>(JnA);
+        gameOverQuizPanel.SetActive(false);
+        generatePertanyaan();
     }
 
-    void GenerateQuestion()
+    private void Update()
     {
-        titleText.text = quizArray[indexQuiz].tittleQuiz;
-        questionText.text = quizArray[indexQuiz].question;
-        multiChoice = quizArray[indexQuiz].multiChoice;
-        answerKey = quizArray[indexQuiz].answer;
-        
-        for(int i = 0; i < multiChoice.Length; i++)
+        if (!isGameOver && isQuizStarted)
         {
-            multiChoiceText[i].text=  multiChoice[i];
-        }
-    }
+            waktuSekarang = DapatSisaWaktu();
+            waktuText.text = Mathf.FloorToInt(waktuSekarang).ToString();
 
-    public void MultiChoiceOnClick(int answerIndex) 
-    {
-        correctAnswer.gameObject.SetActive(true);
-        indexQuiz++;
-
-        if(answerIndex == answerKey)
-        {
-            correctAnswerText.text = "Jawaban anda benar!!";
-            correctScore++;
-        }
-        else
-        {
-            correctAnswerText.text = "Jawaban anda salah!!";
-        }
-    }
-
-    public void AfterChoice()
-    {
-        if(indexQuiz < maxQuestion)
-        {
-            GenerateQuestion();
-        }
-        else
-        {
-            doneQuiz.SetActive(true);
-
-            if(correctScore == maxQuestion)
+            if (waktuSekarang <= 0)
             {
-                doneQuizText.text = "Selamat Kuis Selesai dengan jawaban Benar semua!";
-                retryButton.SetActive(false);
+                WaktuHabis();
+            }
+            else if (waktuSekarang <= 11)
+            {
+                waktuText.color = Color.red;
             }
             else
             {
-                doneQuizText.text = "Maaf terdapat soal dengan jawaban yang salah, coba lagi?";
-                retryButton.SetActive(true);
+                waktuText.color = Color.white;
             }
         }
     }
 
-    public void Retry(){
-        doneQuiz.SetActive(false);
-        correctAnswer.SetActive(false);  
-        indexQuiz = 0;
-        correctScore = 0;
-        GenerateQuestion();
+
+    private void WaktuHabis()
+    {
+        isGameOver = true;
+        waktuText.text = "0";
+        GameOverQuiz();
+    }
+
+    public void GameOverQuiz()
+    {
+        isQuizStarted = false;
+        gameOverQuizPanel.SetActive(true);
+        quizPanel.SetActive(false);
+
+        if (jawabanBenarCounter == 3)
+        {
+            hasilJawaban.text = scoreCounter + "/" + jawabanBenarCounter + "\nKamu benar Semua!";
+        }
+        else
+        {
+            hasilJawaban.text = scoreCounter + "/" + jawabanBenarCounter + "\nBerlatih lagi!";
+        }
+
+        int randomIndex = Random.Range(0, pesanHasil.Length);
+
+        for (int i = 0; i < pesanHasil.Length; i++)
+        {
+            if (i == randomIndex)
+            {
+                pesanHasil[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                pesanHasil[i].gameObject.SetActive(false);
+            }
+        }
+
+
+        float sisaWaktuBerakhir = DapatSisaWaktu();
+        float waktuPengalian = sisaWaktuBerakhir / waktuMaksimal;
+
+        int minScore = 300;
+        int maxScore = 700;
+
+        int scoreRange = maxScore - minScore;
+        int scoredPoints = Mathf.RoundToInt(scoreRange * waktuPengalian * jawabanBenarCounter);
+
+        scorePlayer += scoredPoints;
+        scoreHasil.text = scorePlayer.ToString();
+    }
+
+    public void Benar()
+    {
+        if (!isJawabanBenarTertekan)
+        {
+            isJawabanBenarTertekan = true;
+            scoreCounter += 1;
+            JnA.RemoveAt(pertanyaanSekarang);
+            jawabanBenarCounter += 1;
+            CheckJawabanBenar();
+            StartCoroutine(ShowJawabanText("Benar", benarColor));
+        }
+        else
+        {
+            StartCoroutine(ShowJawabanText("Sudah Terjawab", Color.red));
+        }
+    }
+
+    public void Salah()
+    {
+        if (!isJawabanSalahTertekan)
+        {
+            isJawabanSalahTertekan = true;
+            JnA.RemoveAt(pertanyaanSekarang);
+            CheckJawabanBenar();
+            StartCoroutine(ShowJawabanText("Salah", salahColor));
+            waktuMulai -= penaltyTime;
+            if (waktuSekarang < 0)
+            {
+                waktuSekarang = 0;
+            }
+        }
+        else
+        {
+            StartCoroutine(ShowJawabanText("Sudah Terjawab", Color.red));
+        }
+
+
+    }
+
+    public void SelesaiQuiz()
+    {
+        gameOverQuizPanel.SetActive(false);
+    }
+
+    public void CheckJawabanBenar()
+    {
+        if (jawabanBenarCounter >= 3)
+        {
+            playerManager.IncreaseKeys(1);
+            KeyDestroy();
+            GameOverQuiz();
+        }
+    }
+
+    private void SetJawaban()
+    {
+        for (int i = 0; i < opsi.Length; i++)
+        {
+            opsi[i].GetComponent<Jawaban>().isBenar = false;
+            opsi[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = JnA[pertanyaanSekarang].Jawaban[i];
+            if (JnA[pertanyaanSekarang].jawabanBenar == i + 1)
+            {
+                opsi[i].GetComponent<Jawaban>().isBenar = true;
+            }
+        }
+    }
+
+    private void generatePertanyaan()
+    {
+        isJawabanBenarTertekan = false;
+        isJawabanSalahTertekan = false;
+        if (JnA.Count > 0)
+        {
+            pertanyaanSekarang = Random.Range(0, JnA.Count);
+            pertanyaanText.text = JnA[pertanyaanSekarang].Pertanyaan;
+            SetJawaban();
+        }
+        else
+        {
+            GameOverQuiz();
+        }
+    }
+
+    public void PopUpQuiz()
+    {
+        if (!isQuizStarted)
+        {
+            waktuMulai = Time.time;
+            waktuSekarang = waktuMaksimal;
+            isGameOver = false;
+            quizPanel.SetActive(true);
+            scoreCounter = 0;
+            pertanyaanSekarang = 0;
+            jawabanBenarCounter = 0;
+            totalPertanyaan = originalJnA.Count;
+            JnA.Clear();
+            JnA.AddRange(originalJnA);
+            isQuizStarted = true;
+        }
+    }
+
+    private void KeyDestroy()
+    {
+        if (currentIndex < keyObject.Length)
+        {
+            Destroy(keyObject[currentIndex]);
+            currentIndex++;
+        }
+    }
+
+
+    private float DapatSisaWaktu()
+    {
+        float waktuBerlalu = Time.time - waktuMulai;
+        float sisaWaktu = waktuMaksimal - waktuBerlalu;
+
+        if (sisaWaktu < 0)
+        {
+            sisaWaktu = 0;
+        }
+
+        return sisaWaktu;
+
+    }
+
+    private IEnumerator ShowJawabanText(string text, Color color)
+    {
+        cekJawaban.text = text;
+        cekJawaban.color = color;
+        cekJawaban.gameObject.SetActive(true);
+        yield return new WaitForSeconds(displayDuration);
+        cekJawaban.gameObject.SetActive(false);
+        generatePertanyaan();
     }
 }

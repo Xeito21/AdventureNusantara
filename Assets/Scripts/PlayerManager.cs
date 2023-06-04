@@ -1,49 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header("Player Status")]
+    [SerializeField] private int jumlahNyawa = 3;
+    [SerializeField] private int jumlahCoin = 0;
+    [SerializeField] private int jumlahKey = 0;
+
+    [Header("GameObject")]
+    [SerializeField] private GameObject[] nyawaObject;
+    [SerializeField] private GameObject GameOverUI;
+    [SerializeField] public Animator animPlayer;
+
+    [Header("TextObject")]
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI keyText;
+    [SerializeField] private TextMeshProUGUI[] labelKalah;
+
+    [Header("References")]
+    public QuestionManager questionManager;
     public static PlayerManager Instance;
-    public int jumlahNyawa = 3;
-    public int jumlahSoal = 0;
-    public GameObject[] nyawaObject;
-    public GameObject[] soalObject;
-    public GameObject GameOverUI;
-    public GameObject PauseGame;
-    public UnityEvent Die;
 
     void Awake() 
     {
         Instance = this;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        switch (other.gameObject.tag)
         {
-            MinHealth();
+            case "Enemy":
+                MinHealth();
+                break;
+            case "Heart":
+                IncreaseHearts(1);
+                Destroy(other.gameObject);
+                break;
+            case "Coin":
+                IncreaseCoins(1);
+                Destroy(other.gameObject);
+                break;
+            case "Key":
+                questionManager.PopUpQuiz();
+                break;
+            default:
+                break;
         }
     }
-
-    // GAME PAUSE SCRIPT
-    public void GamePause()
-    {
-        // Game Pause
-        PauseGame.SetActive(true);
-        Time.timeScale = 0;
-    }
-
-    public void GameContinue() 
-    {
-        // Game Continue
-        PauseGame.SetActive(false);
-        Time.timeScale = 1;    
-    }
-    // GAME PAUSE SCRIPT
-    
     public void MinHealth () {
         jumlahNyawa -= 1;
         HealthUpdate();
@@ -54,46 +63,48 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void GetQuestion () {
-        jumlahSoal += 1;
-        SoalUpdateCount();
-    }
-
     void GameOver() 
     {
+        Time.timeScale = 0f;
         GameOverUI.SetActive(true);
+        int randomIndex = Random.Range(0, labelKalah.Length);
+        for (int i = 0; i < labelKalah.Length; i++)
+        {
+            if (i == randomIndex)
+                labelKalah[i].gameObject.SetActive(true);
+            else
+                labelKalah[i].gameObject.SetActive(false);
+        }
     }
     
     void HealthUpdate()
     {
-        foreach (GameObject Horizontal in nyawaObject)
-        {
-            Horizontal.SetActive(false);
-        }
 
-        for (int i = 0; i < jumlahNyawa; i++)
+        for (int i = 0; i < nyawaObject.Length; i++)
         {
-            nyawaObject[i].SetActive(true);
-        }
-    }
-
-    
-    void SoalUpdateCount()
-    {
-        foreach (GameObject Horizontal in soalObject)
-        {
-            Horizontal.SetActive(false);
-        }
-
-        for (int i = 0; i < jumlahSoal; i++)
-        {
-            soalObject[i].SetActive(true);
+            if (i < jumlahNyawa)
+                nyawaObject[i].SetActive(true);
+            else
+                nyawaObject[i].SetActive(false);
         }
     }
 
-    private void PlayerDie() 
+    public void IncreaseHearts(int amount)
     {
-        Die.Invoke();
+        jumlahNyawa += amount;
+        HealthUpdate();
+    }
+    public void IncreaseCoins(int counter)
+    {
+        jumlahCoin += counter;
+        Debug.Log(jumlahCoin.ToString());
+        coinText.text = jumlahCoin.ToString();
+    }
+
+    public void IncreaseKeys(int counter)
+    {
+        jumlahKey += counter;
+        keyText.text = jumlahKey.ToString();
     }
 
 }
