@@ -8,8 +8,8 @@ public class EnemyChase : MonoBehaviour
     [SerializeField] private float speed;
 
     [Header("ToPoint")]
-    [SerializeField] private GameObject startPoint;
-    [SerializeField] private GameObject endPoint;
+    public Transform[] patrolPoint;
+    public int patrolDestination;
 
     private Rigidbody2D musuh;
     private Transform currentPoint;
@@ -21,8 +21,8 @@ public class EnemyChase : MonoBehaviour
 
     private void Start()
     {
-        musuh = GetComponent<Rigidbody2D>();
-        currentPoint = endPoint.transform;
+        // musuh = GetComponent<Rigidbody2D>();
+        // currentPoint = endPoint.transform;
 
     }
 
@@ -32,13 +32,15 @@ public class EnemyChase : MonoBehaviour
         {
             if(transform.position.x > playerTransform.position.x)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                // transform.localScale = new Vector3(1, 1, 1);
                 transform.position += Vector3.left * speed * Time.deltaTime;
+                FlipEnemy();
             }
             if(transform.position.x < playerTransform.position.x)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                // transform.localScale = new Vector3(-1, 1, 1);
                 transform.position += Vector3.right * speed * Time.deltaTime;
+                FlipEnemy();
             }
         }
         else
@@ -48,24 +50,25 @@ public class EnemyChase : MonoBehaviour
                 isChasing = true;
             }
 
-            Vector2 point = currentPoint.position - transform.position;
-            if(currentPoint == endPoint.transform)
+            if(patrolDestination == 0)
             {
-                musuh.velocity = new Vector2(speed, 0);
+                transform.position = Vector2.MoveTowards(transform.position, patrolPoint[0].position, speed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, patrolPoint[0].position) < 0.2f)
+                {
+                    FlipEnemy();
+                    // transform.localScale = new Vector3(1, 1, 1);
+                    patrolDestination = 1;
+                }
             }
-            else
+            if(patrolDestination == 1)
             {
-                musuh.velocity = new Vector2(-speed, 0);
-            }
-            if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == endPoint.transform)
-            {
-                FlipEnemy();
-                currentPoint = startPoint.transform;
-            }
-            if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == startPoint.transform)
-            {
-                FlipEnemy();
-                currentPoint = endPoint.transform;
+                transform.position = Vector2.MoveTowards(transform.position, patrolPoint[1].position, speed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, patrolPoint[1].position) < 0.2f)
+                {
+                    FlipEnemy();
+                    // transform.localScale = new Vector3(-1, 1, 1);
+                    patrolDestination = 0;
+                }
             }
         }
     }
@@ -77,10 +80,10 @@ public class EnemyChase : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(startPoint.transform.position, 0.5f);
-        Gizmos.DrawWireSphere(endPoint.transform.position, 0.5f);
-        Gizmos.DrawLine(startPoint.transform.position, endPoint.transform.position);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.DrawWireSphere(startPoint.transform.position, 0.5f);
+    //     Gizmos.DrawWireSphere(endPoint.transform.position, 0.5f);
+    //     Gizmos.DrawLine(startPoint.transform.position, endPoint.transform.position);
+    // }
 }
