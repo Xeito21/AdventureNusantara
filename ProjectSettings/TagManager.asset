@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Key
   - Obstacle
+  - PatrolPoint
   layers:
   - Default
   - TransparentFX

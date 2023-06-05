@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private SpriteRenderer karakterSprite;
     [SerializeField] private Collider2D karakterCol;
     Vector2 checkPointPosisi;
-    
 
     [Header("GameObject")]
     [SerializeField] private GameObject[] nyawaObject;
@@ -31,6 +30,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI[] labelKalah;
+    [SerializeField] private TextMeshProUGUI heartLabel;
+
 
     [Header("References")]
     public QuestionManager questionManager;
@@ -39,9 +40,10 @@ public class PlayerManager : MonoBehaviour
     public CameraManager cameraManager;
     public static PlayerManager Instance;
 
+    [Header("Boolean")]
+    private bool isHeartCollected = false;
 
-
-    void Awake() 
+    void Awake()
     {
         Instance = this;
         questionManager = FindObjectOfType<QuestionManager>();
@@ -60,8 +62,16 @@ public class PlayerManager : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Heart":
-                IncreaseHearts(1);
-                Destroy(other.gameObject);
+                if (!isHeartCollected && jumlahNyawa < 3)
+                {
+                    IncreaseHearts(1);
+                    Destroy(other.gameObject);
+                    isHeartCollected = true;
+                }
+                else
+                {
+                    StartCoroutine(HeartText("Heart anda sudah Penuh!", 2f));
+                }
                 break;
             case "Coin":
                 IncreaseCoins(1);
@@ -77,6 +87,7 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
     }
+
     public void TerkenaDamage()
     {
         jumlahNyawa -= 1;
@@ -105,8 +116,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
-    void GameOver() 
+    void GameOver()
     {
         karakterSprite.GetComponent<SpriteRenderer>().enabled = false;
         playerMovement.rb.simulated = false;
@@ -121,10 +131,9 @@ public class PlayerManager : MonoBehaviour
                 labelKalah[i].gameObject.SetActive(false);
         }
     }
-    
+
     void HealthUpdate()
     {
-
         for (int i = 0; i < nyawaObject.Length; i++)
         {
             if (i < jumlahNyawa)
@@ -139,6 +148,7 @@ public class PlayerManager : MonoBehaviour
         jumlahNyawa += amount;
         HealthUpdate();
     }
+
     public void IncreaseCoins(int counter)
     {
         jumlahCoin += counter;
@@ -175,10 +185,9 @@ public class PlayerManager : MonoBehaviour
         checkPointPosisi = pos;
     }
 
-
     public IEnumerator HidupKembali(float duration)
     {
-        if(jumlahNyawa > 0)
+        if (jumlahNyawa > 0)
         {
             yield return new WaitForSeconds(duration);
             playerMovement.rb.velocity = Vector2.zero;
@@ -203,7 +212,7 @@ public class PlayerManager : MonoBehaviour
         karakterCol.enabled = false;
         playerMovement.rb.simulated = false;
         Vector2 originalPosition = transform.position;
-        Vector2 targetPosition = originalPosition + new Vector2(2f, 0f);
+        Vector2 targetPosition = originalPosition + new Vector2(3f, 0f);
 
         float elapsedTime = 0f;
 
@@ -216,9 +225,17 @@ public class PlayerManager : MonoBehaviour
 
         transform.position = targetPosition;
         yield return new WaitForSeconds(duration);
-        karakterCol.enabled = true; 
-        playerMovement.rb.simulated = true; 
+        karakterCol.enabled = true;
+        playerMovement.rb.simulated = true;
     }
 
+    private IEnumerator HeartText(string text, float duration)
+    {
+        heartLabel.text = text;
+        heartLabel.gameObject.SetActive(true);
 
+        yield return new WaitForSeconds(duration);
+
+        heartLabel.gameObject.SetActive(false);
+    }
 }

@@ -7,47 +7,78 @@ public class Enemy : MonoBehaviour
 {
     [Header("Value")]
     [SerializeField] private float speed;
+    [SerializeField] private float chaseDistance; // Jarak pengejaran musuh
 
     [Header("ToPoint")]
     [SerializeField] private GameObject startPoint;
     [SerializeField] private GameObject endPoint;
 
-
     [Header("Enemy")]
     private Rigidbody2D musuh;
     private Transform currentPoint;
+    private Transform playerTransform; // Transform pemain
 
     [Header("References")]
     public PlayerManager playerManager;
 
+    private bool isChasing = false;
 
     private void Start()
     {
         musuh = GetComponent<Rigidbody2D>();
         currentPoint = endPoint.transform;
-
+        playerTransform = playerManager.transform;
     }
 
     private void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
-        if(currentPoint == endPoint.transform)
+        // Menghitung jarak antara musuh dan pemain
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+
+        // Jika jarak kurang dari jarak pengejaran, maka musuh akan mengejar pemain
+        if (distanceToPlayer <= chaseDistance)
         {
-            musuh.velocity = new Vector2(speed, 0);
+            isChasing = true;
+            ChasePlayer();
         }
         else
         {
-            musuh.velocity = new Vector2(-speed, 0);
+            isChasing = false;
+            Patrol();
         }
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == endPoint.transform)
+    }
+
+    private void ChasePlayer()
+    {
+        // Mengubah arah pergerakan musuh menuju pemain
+        Vector2 direction = (playerTransform.position - transform.position).normalized;
+        musuh.velocity = new Vector2(direction.x * speed, 0);
+    }
+
+    private void Patrol()
+    {
+        // Pergerakan patroli musuh antara startPoint dan endPoint
+        Vector2 point = currentPoint.position - transform.position;
+
+        if (!isChasing)
         {
-            FlipEnemy();
-            currentPoint = startPoint.transform;
-        }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == startPoint.transform)
-        {
-            FlipEnemy();
-            currentPoint = endPoint.transform;
+            if (currentPoint == endPoint.transform)
+            {
+                musuh.velocity = new Vector2(speed, 0);
+            }
+            else
+            {
+                musuh.velocity = new Vector2(-speed, 0);
+            }
+
+            if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f)
+            {
+                FlipEnemy();
+                if (currentPoint == endPoint.transform)
+                    currentPoint = startPoint.transform;
+                else
+                    currentPoint = endPoint.transform;
+            }
         }
     }
 

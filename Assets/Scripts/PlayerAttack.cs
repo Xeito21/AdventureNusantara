@@ -16,6 +16,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("Boolean")]
     private bool attacking = false;
 
+
     [Header("References")]
     private PlayerMovement playerMovement;
 
@@ -50,5 +51,7 @@ public class PlayerAttack : MonoBehaviour
         attacking = true;
         attackArea.SetActive(attacking);
         PlayerManager.Instance.animPlayer.SetTrigger("isAttack");
+
     }
+
 }

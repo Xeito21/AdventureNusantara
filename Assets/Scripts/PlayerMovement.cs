@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -18,6 +19,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Boolean")]
     private bool isFacingRight = true;
 
+
+    [Header("References")]
+    public static PlayerMovement Instance;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -41,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //  PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
-
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+
     }
     void PlayJumpAnimation()
     {
@@ -71,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
+
     private void Flip()
     {
         if (isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)
@@ -81,4 +93,6 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+
+
 }
