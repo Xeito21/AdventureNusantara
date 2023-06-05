@@ -212,7 +212,7 @@ public class PlayerManager : MonoBehaviour
         karakterCol.enabled = false;
         playerMovement.rb.simulated = false;
         Vector2 originalPosition = transform.position;
-        Vector2 targetPosition = originalPosition + new Vector2(3f, 0f);
+        Vector2 targetPosition = originalPosition + new Vector2(1f, 0f);
 
         float elapsedTime = 0f;
 
