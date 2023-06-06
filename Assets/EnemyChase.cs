@@ -32,15 +32,13 @@ public class EnemyChase : MonoBehaviour
         {
             if(transform.position.x > playerTransform.position.x)
             {
-                // transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(1, 1, 1);
                 transform.position += Vector3.left * speed * Time.deltaTime;
-                FlipEnemy();
             }
             if(transform.position.x < playerTransform.position.x)
             {
-                // transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-1, 1, 1);
                 transform.position += Vector3.right * speed * Time.deltaTime;
-                FlipEnemy();
             }
         }
         else
@@ -55,30 +53,31 @@ public class EnemyChase : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, patrolPoint[0].position, speed * Time.deltaTime);
                 if (Vector2.Distance(transform.position, patrolPoint[0].position) < 0.2f)
                 {
-                    FlipEnemy();
-                    // transform.localScale = new Vector3(1, 1, 1);
+
+                    transform.localScale = new Vector3(1, 1, 1);
                     patrolDestination = 1;
                 }
             }
+            
             if(patrolDestination == 1)
             {
                 transform.position = Vector2.MoveTowards(transform.position, patrolPoint[1].position, speed * Time.deltaTime);
                 if (Vector2.Distance(transform.position, patrolPoint[1].position) < 0.2f)
                 {
-                    FlipEnemy();
-                    // transform.localScale = new Vector3(-1, 1, 1);
+
+                    transform.localScale = new Vector3(-1, 1, 1);
                     patrolDestination = 0;
                 }
             }
         }
     }
 
-    private void FlipEnemy()
-    {
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
-    }
+    // private void FlipEnemy()
+    // {
+    //     Vector3 localScale = transform.localScale;
+    //     localScale.x *= -1;
+    //     transform.localScale = localScale;
+    // }
 
     // private void OnDrawGizmos()
     // {

@@ -42,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
     void PlayJumpAnimation(){
         PlayerManager.Instance.animPlayer.SetTrigger("jump" );
     }
- public void SetDirectionalInput(Vector2 input)
+    
+    public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
          PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
@@ -57,10 +58,12 @@ public class PlayerMovement : MonoBehaviour
        // print(directionalInput);
 
     }
+    
     private bool isGrounded () {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
         
     }
+    
     private void Flip () {
         if(isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f){
             isFacingRight = !isFacingRight;
