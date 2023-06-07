@@ -8,7 +8,7 @@ public class QuestionManager : MonoBehaviour
 {
     [Header("Value")]
     [SerializeField] private int scoreCounter;
-    [SerializeField] private int scorePlayer;
+    [SerializeField] public int scorePlayer;
     [SerializeField] private int pertanyaanSekarang;
     [SerializeField] private int jawabanBenarCounter = 0;
     private int currentIndex = 0;
@@ -35,7 +35,7 @@ public class QuestionManager : MonoBehaviour
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI[] pesanHasil;
     [SerializeField] private TextMeshProUGUI cekJawaban;
-    [SerializeField] private TextMeshProUGUI scoreHasil;
+    [SerializeField] public TextMeshProUGUI scoreHasil;
     [SerializeField] private TextMeshProUGUI hasilJawaban;
     [SerializeField] private TextMeshProUGUI pertanyaanText;
     [SerializeField] private TextMeshProUGUI waktuText;
@@ -54,7 +54,13 @@ public class QuestionManager : MonoBehaviour
 
     [Header("References")]
     public PlayerManager playerManager;
+    public static QuestionManager Instance;
 
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         totalPertanyaan = JnA.Count;

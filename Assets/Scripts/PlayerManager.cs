@@ -152,7 +152,6 @@ public class PlayerManager : MonoBehaviour
     public void IncreaseCoins(int counter)
     {
         jumlahCoin += counter;
-        Debug.Log(jumlahCoin.ToString());
         coinText.text = jumlahCoin.ToString();
     }
 

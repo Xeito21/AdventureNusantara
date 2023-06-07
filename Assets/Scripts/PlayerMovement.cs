@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Transform")]
     private float horizontal;
-    private float speed = 8f;
+    private float speed = 5f;
     private Vector2 directionalInput;
 
     [Header("Boolean")]
