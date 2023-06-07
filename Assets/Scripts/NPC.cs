@@ -17,12 +17,10 @@ public class NPC : MonoBehaviour
         {
             if (transform.position.x > player.transform.position.x)
             {
-                // Objek berada di sebelah kiri player
                 transform.localScale = new Vector3(-initialScale.x, initialScale.y, initialScale.z);
             }
             else
             {
-                // Objek berada di sebelah kanan player
                 transform.localScale = initialScale;
             }
         }

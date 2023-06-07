@@ -1,106 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [Header("Value")]
     [SerializeField] private float speed;
-    [SerializeField] private float chaseDistance; // Jarak pengejaran musuh
 
     [Header("ToPoint")]
-    [SerializeField] private GameObject startPoint;
-    [SerializeField] private GameObject endPoint;
+    public Transform[] patrolPoint;
+    public int patrolDestination;
 
-    [Header("Enemy")]
-    private Rigidbody2D musuh;
-    private Transform currentPoint;
-    private Transform playerTransform; // Transform pemain
+    [Header("Target")]
+    public Transform playerTransform;
 
-    [Header("References")]
-    public PlayerManager playerManager;
+    [Header("Check")]
+    public bool isChasing;
+    public float chaseDistance;
 
-    private bool isChasing = false;
 
-    private void Start()
-    {
-        musuh = GetComponent<Rigidbody2D>();
-        currentPoint = endPoint.transform;
-        playerTransform = playerManager.transform;
-    }
 
     private void Update()
     {
-        // Menghitung jarak antara musuh dan pemain
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-
-        // Jika jarak kurang dari jarak pengejaran, maka musuh akan mengejar pemain
-        if (distanceToPlayer <= chaseDistance)
+        if (isChasing)
         {
-            isChasing = true;
-            ChasePlayer();
+            if (transform.position.x > playerTransform.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+            if (transform.position.x < playerTransform.position.x)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                transform.position += Vector3.right * speed * Time.deltaTime;
+            }
         }
         else
         {
-            isChasing = false;
-            Patrol();
-        }
-    }
-
-    private void ChasePlayer()
-    {
-        // Mengubah arah pergerakan musuh menuju pemain
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
-        musuh.velocity = new Vector2(direction.x * speed, 0);
-    }
-
-    private void Patrol()
-    {
-        // Pergerakan patroli musuh antara startPoint dan endPoint
-        Vector2 point = currentPoint.position - transform.position;
-
-        if (!isChasing)
-        {
-            if (currentPoint == endPoint.transform)
+            if (Vector2.Distance(transform.position, playerTransform.position) < chaseDistance)
             {
-                musuh.velocity = new Vector2(speed, 0);
-            }
-            else
-            {
-                musuh.velocity = new Vector2(-speed, 0);
+                isChasing = true;
             }
 
-            if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f)
+            if (patrolDestination == 0)
             {
-                FlipEnemy();
-                if (currentPoint == endPoint.transform)
-                    currentPoint = startPoint.transform;
-                else
-                    currentPoint = endPoint.transform;
+                transform.position = Vector2.MoveTowards(transform.position, patrolPoint[0].position, speed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, patrolPoint[0].position) < 0.2f)
+                {
+
+                    transform.localScale = new Vector3(1, 1, 1);
+                    patrolDestination = 1;
+                }
+            }
+
+            if (patrolDestination == 1)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, patrolPoint[1].position, speed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, patrolPoint[1].position) < 0.2f)
+                {
+
+                    transform.localScale = new Vector3(-1, 1, 1);
+                    patrolDestination = 0;
+                }
             }
         }
     }
 
-    private void FlipEnemy()
-    {
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
-    }
+    // private void FlipEnemy()
+    // {
+    //     Vector3 localScale = transform.localScale;
+    //     localScale.x *= -1;
+    //     transform.localScale = localScale;
+    // }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(startPoint.transform.position, 0.5f);
-        Gizmos.DrawWireSphere(endPoint.transform.position, 0.5f);
-        Gizmos.DrawLine(startPoint.transform.position, endPoint.transform.position);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerManager.TerkenaDamage();
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.DrawWireSphere(startPoint.transform.position, 0.5f);
+    //     Gizmos.DrawWireSphere(endPoint.transform.position, 0.5f);
+    //     Gizmos.DrawLine(startPoint.transform.position, endPoint.transform.position);
+    // }
 }
