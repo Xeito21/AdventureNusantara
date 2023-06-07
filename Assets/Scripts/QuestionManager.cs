@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class QuestionManager : MonoBehaviour
 {
+    
     [Header("Value")]
     [SerializeField] private int scoreCounter;
     [SerializeField] public int scorePlayer;
@@ -48,7 +49,8 @@ public class QuestionManager : MonoBehaviour
 
     [Header("Boolean")]
     private bool isGameOver = false;
-    private bool isQuizStarted = false;
+    public bool isQuizStarted = false;
+    public bool isQuizTampil = false;
     private bool isJawabanBenarTertekan = false;
     private bool isJawabanSalahTertekan = false;
 
@@ -184,6 +186,7 @@ public class QuestionManager : MonoBehaviour
 
     public void SelesaiQuiz()
     {
+         isQuizTampil=false;
         gameOverQuizPanel.SetActive(false);
     }
 
@@ -230,6 +233,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (!isQuizStarted)
         {
+            isQuizTampil=true;
             waktuMulai = Time.time;
             waktuSekarang = waktuMaksimal;
             isGameOver = false;

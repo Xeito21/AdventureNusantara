@@ -13,7 +13,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private int jumlahNyawa = 3;
     [SerializeField] private int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
-
+     [SerializeField] float jarakTerpentalMusuh=1000;
+ [SerializeField] float jarakTerpentalObstacle=300;
     [Header("Player")]
     [SerializeField] private SpriteRenderer karakterSprite;
     [SerializeField] private Collider2D karakterCol;
@@ -81,14 +82,14 @@ public class PlayerManager : MonoBehaviour
                 questionManager.PopUpQuiz();
                 break;
             case "Obstacle":
-                TerkenaDamage();
+                TerkenaDamage(null);
                 break;
             default:
                 break;
         }
     }
 
-    public void TerkenaDamage()
+    public void TerkenaDamage(Enemy musuh)
     {
         jumlahNyawa -= 1;
         HealthUpdate();
@@ -100,7 +101,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(TerpentalKenaDamage(0.5f));
+            StartCoroutine(TerpentalKenaDamage(0.5f,musuh));
         }
     }
 
@@ -175,8 +176,8 @@ public class PlayerManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             elapsedTime += 0.2f;
         }
-
-        karakterSprite.color = originalColor;
+       karakterSprite.color = Color.white;
+       // karakterSprite.color = originalColor;
     }
 
     public void UpdateCheckpoint(Vector2 pos)
@@ -206,12 +207,29 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    private IEnumerator TerpentalKenaDamage(float duration)
+    private IEnumerator TerpentalKenaDamage(float duration, Enemy enemy)
     {
+        Vector2 v2Terpental= new Vector2(3, 0f);
+        if(enemy!=null){
+            
+            if(enemy.transform.position.x < transform.position.x){
+                v2Terpental=  new Vector2(3, 0f);
+            }else{
+                 v2Terpental=  new Vector2(-3, 0f);
+            }
+              playerMovement.rb.AddForce(v2Terpental*jarakTerpentalMusuh);
+        }else{
+             v2Terpental=  new Vector2(3, 3);
+               playerMovement.rb.AddForce(v2Terpental*jarakTerpentalObstacle);
+        }
+
+      
+        yield return null;
+       /*
         karakterCol.enabled = false;
         playerMovement.rb.simulated = false;
         Vector2 originalPosition = transform.position;
-        Vector2 targetPosition = originalPosition + new Vector2(1f, 0f);
+        Vector2 targetPosition = originalPosition + v2Terpental;
 
         float elapsedTime = 0f;
 
@@ -225,7 +243,8 @@ public class PlayerManager : MonoBehaviour
         transform.position = targetPosition;
         yield return new WaitForSeconds(duration);
         karakterCol.enabled = true;
-        playerMovement.rb.simulated = true;
+        playerMovement.rb.simulated = true; 
+        */
     }
 
     private IEnumerator HeartText(string text, float duration)

@@ -10,6 +10,7 @@ TagManager:
   - Key
   - Obstacle
   - PatrolPoint
+  - bataskejar
   layers:
   - Default
   - TransparentFX

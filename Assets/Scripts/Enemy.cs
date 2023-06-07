@@ -18,20 +18,33 @@ public class Enemy : MonoBehaviour
     public bool isChasing;
     public float chaseDistance;
 
-
+    /// <summary>
+    /// Sent when another object enters a trigger collider attached to this
+    /// object (2D physics only).
+    /// </summary>
+    /// <param name="other">The other Collider2D involved in this collision.</param>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag =="bataskejar"){
+            isChasing =false;
+        }
+    }
 
     private void Update()
     {
+        if(QuestionManager.Instance.isQuizTampil){
+                //diam
+        }else
         if (isChasing)
         {
             if (transform.position.x > playerTransform.position.x)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(-1, 1, 1);
                 transform.position += Vector3.left * speed * Time.deltaTime;
             }
             if (transform.position.x < playerTransform.position.x)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(1, 1, 1);
                 transform.position += Vector3.right * speed * Time.deltaTime;
             }
         }

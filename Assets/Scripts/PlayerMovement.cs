@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if(!QuestionManager.Instance.isQuizTampil){
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButton("Jump") && isGrounded())
@@ -45,6 +46,10 @@ public class PlayerMovement : MonoBehaviour
         PlayerManager.Instance.animPlayer.SetBool("isGrounded", isGrounded());
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         SetDirectionalInput(directionalInput);
+        }else{
+            horizontal=0;
+        }
+       
     }
 
     private void FixedUpdate()
