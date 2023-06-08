@@ -8,10 +8,32 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
+    public int nextSceneLoad;
 
     private void Awake()
     {
         instance = this;
+    }
+    private void Start() {
+        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
+    }
+
+    public void NextLevel () {
+    
+            if(SceneManager.GetActiveScene().buildIndex == 4){
+                Debug.Log("TAMAT!");
+
+                //please make an end game panel appear in here
+            }else{
+                //move level
+                SceneManager.LoadScene(nextSceneLoad);
+
+                //setting int for index
+                if(nextSceneLoad > PlayerPrefs.GetInt("levelAt")){
+                    PlayerPrefs.SetInt("levelAt", nextSceneLoad);
+                }
+            }
+        
     }
 
     public void StartBtn()
@@ -44,6 +66,18 @@ public class MenuManager : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(0);
+    }
+    public void Level1()
+    {
+        SceneManager.LoadScene(2);
+    }
+    public void Level2()
+    {
+        SceneManager.LoadScene(3);
+    }
+    public void Level3()
+    {
+        SceneManager.LoadScene(4);
     }
 
     public void FullscreenResolution()
