@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] public Rigidbody2D rb;
+    public float knockBackForce;
+    public float knockBackCounter;
+    public float knockBackTotalTime;
 
     [Header("Transform")]
     private float horizontal;
@@ -18,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Boolean")]
     private bool isFacingRight = true;
+    public bool knockFromRight;
 
 
     [Header("References")]
@@ -27,10 +31,10 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        rb = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        if(!QuestionManager.Instance.isQuizTampil){
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButton("Jump") && isGrounded())
@@ -46,17 +50,28 @@ public class PlayerMovement : MonoBehaviour
         PlayerManager.Instance.animPlayer.SetBool("isGrounded", isGrounded());
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         SetDirectionalInput(directionalInput);
-        }else{
-            horizontal=0;
-        }
-       
     }
 
     private void FixedUpdate()
     {
+        if(knockBackCounter <= 0)
+        {
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        }
+        else
+        {
+            if(knockFromRight == true)
+            {
+                rb.velocity = new Vector2(-knockBackForce, knockBackForce);
+            }
+            if(knockFromRight == false)
+            {
+                rb.velocity = new Vector2(knockBackForce, knockBackForce);
+            }
 
-        //  PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            knockBackCounter -=Time.deltaTime;
+        }
+
 
 
     }

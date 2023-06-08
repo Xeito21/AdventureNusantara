@@ -13,11 +13,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private int jumlahNyawa = 3;
     [SerializeField] private int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
-     [SerializeField] float jarakTerpentalMusuh=1000;
- [SerializeField] float jarakTerpentalObstacle=300;
+
+    [Header("KnockBack")]
+    [SerializeField] private float knockbackCounter;
+    [SerializeField] private float knockbackTotalTime;
+    [SerializeField] private float knockBackForce;
+
+
     [Header("Player")]
     [SerializeField] private SpriteRenderer karakterSprite;
-    [SerializeField] private Collider2D karakterCol;
+    [SerializeField] private Rigidbody2D rb;
     Vector2 checkPointPosisi;
 
     [Header("GameObject")]
@@ -42,7 +47,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     [Header("Boolean")]
-    private bool isHeartCollected = false;
+    private bool knockFromRight;
 
     void Awake()
     {
@@ -63,11 +68,10 @@ public class PlayerManager : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Heart":
-                if (!isHeartCollected && jumlahNyawa < 3)
+                if(jumlahNyawa < 3)
                 {
                     IncreaseHearts(1);
                     Destroy(other.gameObject);
-                    isHeartCollected = true;
                 }
                 else
                 {
@@ -82,14 +86,23 @@ public class PlayerManager : MonoBehaviour
                 questionManager.PopUpQuiz();
                 break;
             case "Obstacle":
-                TerkenaDamage(null);
+                TerkenaDamage();
+                ApplyKnockBackObs();
+                if (other.transform.position.y <= transform.position.y)
+                {
+                    knockFromRight = true;
+                }
+                if (other.transform.position.y > transform.position.y)
+                {
+                    knockFromRight = false;
+                }
                 break;
             default:
                 break;
         }
     }
 
-    public void TerkenaDamage(Enemy musuh)
+    public void TerkenaDamage()
     {
         jumlahNyawa -= 1;
         HealthUpdate();
@@ -98,10 +111,6 @@ public class PlayerManager : MonoBehaviour
         if (jumlahNyawa <= 0)
         {
             GameOver();
-        }
-        else
-        {
-            StartCoroutine(TerpentalKenaDamage(0.5f,musuh));
         }
     }
 
@@ -146,8 +155,9 @@ public class PlayerManager : MonoBehaviour
 
     public void IncreaseHearts(int amount)
     {
-        jumlahNyawa += amount;
-        HealthUpdate();
+            jumlahNyawa += amount;
+            HealthUpdate();
+
     }
 
     public void IncreaseCoins(int counter)
@@ -177,7 +187,6 @@ public class PlayerManager : MonoBehaviour
             elapsedTime += 0.2f;
         }
        karakterSprite.color = Color.white;
-       // karakterSprite.color = originalColor;
     }
 
     public void UpdateCheckpoint(Vector2 pos)
@@ -207,45 +216,20 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    private IEnumerator TerpentalKenaDamage(float duration, Enemy enemy)
+    private void ApplyKnockBackObs()
     {
-        Vector2 v2Terpental= new Vector2(3, 0f);
-        if(enemy!=null){
-            
-            if(enemy.transform.position.x < transform.position.x){
-                v2Terpental=  new Vector2(3, 0f);
-            }else{
-                 v2Terpental=  new Vector2(-3, 0f);
-            }
-              playerMovement.rb.AddForce(v2Terpental*jarakTerpentalMusuh);
-        }else{
-             v2Terpental=  new Vector2(3, 3);
-               playerMovement.rb.AddForce(v2Terpental*jarakTerpentalObstacle);
-        }
-
-      
-        yield return null;
-       /*
-        karakterCol.enabled = false;
-        playerMovement.rb.simulated = false;
-        Vector2 originalPosition = transform.position;
-        Vector2 targetPosition = originalPosition + v2Terpental;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        if (knockFromRight == true)
         {
-            transform.position = Vector2.Lerp(originalPosition, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            rb.velocity = new Vector2(-knockBackForce, knockBackForce);
+        }
+        if (knockFromRight == false)
+        {
+            rb.velocity = new Vector2(knockBackForce, knockBackForce);
         }
 
-        transform.position = targetPosition;
-        yield return new WaitForSeconds(duration);
-        karakterCol.enabled = true;
-        playerMovement.rb.simulated = true; 
-        */
+        knockbackCounter -= Time.deltaTime;
     }
+
 
     private IEnumerator HeartText(string text, float duration)
     {

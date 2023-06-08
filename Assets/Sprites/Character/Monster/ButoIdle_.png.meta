@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3015d5b88da89b2459f57a9bb7f97ae1
+guid: 2a0ff3a702182b0458feb432be1c749f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,11 +117,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_0
+      name: ButoIdle__0
       rect:
         serializedVersion: 2
-        x: 37
-        y: 852
+        x: 125
+        y: 608
         width: 370
         height: 409
       alignment: 0
@@ -131,18 +131,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f2ed1b7961f88d4281ac2998f6205fa
-      internalID: 34208675
+      spriteID: 10d12ed61b9874c46845634c09c21044
+      internalID: 1802508946
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_1
+      name: ButoIdle__1
       rect:
         serializedVersion: 2
-        x: 427
-        y: 852
+        x: 608
+        y: 608
         width: 370
         height: 409
       alignment: 0
@@ -152,18 +152,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e15d3cbbd5d4630439610d14db82191e
-      internalID: 1263454497
+      spriteID: ef7d9ea071990504991eabede79563f2
+      internalID: -465333334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_2
+      name: ButoIdle__2
       rect:
         serializedVersion: 2
-        x: 813
-        y: 852
+        x: 1055
+        y: 608
         width: 370
         height: 409
       alignment: 0
@@ -173,18 +173,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44f105d22975cd4429a0eca5e7ec4b9d
-      internalID: 851045490
+      spriteID: 4ef1ac9d49e71f0418db6bdb7bfa8a1c
+      internalID: -606219078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_3
+      name: ButoIdle__3
       rect:
         serializedVersion: 2
-        x: 1253
-        y: 854
+        x: 1540
+        y: 608
         width: 370
         height: 409
       alignment: 0
@@ -194,50 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 923cd175353f6f840b8f342b3db0abd8
-      internalID: -1731266187
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_4
-      rect:
-        serializedVersion: 2
-        x: 1651
-        y: 856
-        width: 370
-        height: 409
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 04ce3d0b111493242b21281dc6fb311d
-      internalID: 256645775
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ButoIdleandAtk_rmeove_5
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 380
-        width: 370
-        height: 409
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b25230f7186132a4aa7ad0d8b065e9b5
-      internalID: 1774227399
+      spriteID: dd24ab12f01b3784681f0008d963b030
+      internalID: -1513009723
       vertices: []
       indices: 
       edges: []
@@ -253,17 +211,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ButoIdleandAtk_rmeove_8: 1099147688
-      ButoIdleandAtk_rmeove_3: -1731266187
-      ButoIdleandAtk_rmeove_7: -1280504415
-      ButoIdleandAtk_rmeove_6: 1771135848
-      ButoIdleandAtk_rmeove_9: -1779223080
-      ButoIdleandAtk_rmeove_2: 851045490
-      ButoIdleandAtk_rmeove_5: 1774227399
-      ButoIdleandAtk_rmeove_10: 1971210535
-      ButoIdleandAtk_rmeove_1: 1263454497
-      ButoIdleandAtk_rmeove_4: 256645775
-      ButoIdleandAtk_rmeove_0: 34208675
+      ButoIdle__0: 1802508946
+      ButoIdle__3: -1513009723
+      ButoIdle__1: -465333334
+      ButoIdle__2: -606219078
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

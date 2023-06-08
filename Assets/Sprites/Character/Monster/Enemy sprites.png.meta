@@ -121,11 +121,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 14
-        y: 830
-        width: 316
+        y: 833
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -143,8 +143,8 @@ TextureImporter:
         serializedVersion: 2
         x: 413
         y: 840
-        width: 316
-        height: 409
+        width: 370
+        height: 373
       alignment: 9
       pivot: {x: 0.5, y: 0.41768402}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
         serializedVersion: 2
         x: 827
         y: 847
-        width: 316
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -185,10 +185,10 @@ TextureImporter:
         serializedVersion: 2
         x: 1282
         y: 847
-        width: 316
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -206,10 +206,10 @@ TextureImporter:
         serializedVersion: 2
         x: 1658
         y: 847
-        width: 316
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: Enemy sprites_5
       rect:
         serializedVersion: 2
-        x: 46
+        x: 43
         y: 414
-        width: 316
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -247,11 +247,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 475
-        y: 416
-        width: 316
+        y: 419
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -269,10 +269,10 @@ TextureImporter:
         serializedVersion: 2
         x: 871
         y: 424
-        width: 316
+        width: 370
         height: 409
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

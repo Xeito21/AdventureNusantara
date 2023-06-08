@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("References")]
     private PlayerMovement playerMovement;
+    public ButoEnemy butoEnemy;
 
     void Start()
     {
@@ -51,7 +52,6 @@ public class PlayerAttack : MonoBehaviour
         attacking = true;
         attackArea.SetActive(attacking);
         PlayerManager.Instance.animPlayer.SetTrigger("isAttack");
-
     }
 
 }

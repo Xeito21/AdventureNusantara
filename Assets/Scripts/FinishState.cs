@@ -32,18 +32,21 @@ public class FinishState : MonoBehaviour
     {
         int score = questionManager.scorePlayer;
 
-        if (score > 2000)
+        switch (score)
         {
-            ActivateStars(3);
+            case > 2000:
+                ActivateStars(3);
+                break;
+            case >= 1000:
+                ActivateStars(2);
+                break;
+            case > 500:
+                ActivateStars(1);
+                break;
+            default:
+                break;
         }
-        else if (score >= 1000)
-        {
-            ActivateStars(2);
-        }
-        else
-        {
-            ActivateStars(1);
-        }
+
     }
 
     private void ActivateStars(int count)
