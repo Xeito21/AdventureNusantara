@@ -8,12 +8,33 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
+    [SerializeField] private int nextSceneLoad;
 
     private void Awake()
     {
         instance = this;
     }
+    private void Start()
+    {
+        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
+    }
 
+    public void NextLevel()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            Debug.Log("TAMAT!");
+        }
+        else
+        {
+            SceneManager.LoadScene(nextSceneLoad);
+            if (nextSceneLoad > PlayerPrefs.GetInt("levelAt"))
+            {
+                PlayerPrefs.SetInt("levelAt", nextSceneLoad);
+            }
+        }
+
+    }
     public void StartBtn()
     {
         SceneManager.LoadScene(1);

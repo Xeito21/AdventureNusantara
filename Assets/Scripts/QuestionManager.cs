@@ -1,3 +1,5 @@
+using System;
+using Random = UnityEngine.Random;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,7 +33,7 @@ public class QuestionManager : MonoBehaviour
     [SerializeField] private GameObject quizPanel;
     [SerializeField] private GameObject gameOverQuizPanel;
     [SerializeField] private GameObject[] opsi;
-    [SerializeField] private GameObject[] keyObject;
+    [SerializeField] private List<GameObject> keyObjects;
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI[] pesanHasil;
@@ -66,6 +68,7 @@ public class QuestionManager : MonoBehaviour
     private void Start()
     {
         totalPertanyaan = JnA.Count;
+        scorePlayer = PlayerPrefs.GetInt("ScorePlayer", 0);
         currentIndex = 0;
         originalJnA = new List<TanyaDanJawab>(JnA);
         gameOverQuizPanel.SetActive(false);
@@ -195,7 +198,12 @@ public class QuestionManager : MonoBehaviour
         if (jawabanBenarCounter >= 3)
         {
             playerManager.IncreaseKeys(1);
-            KeyDestroy();
+            if (currentIndex < keyObjects.Count)
+            {
+                GameObject keyObject = keyObjects[currentIndex];
+                KeyDestroy(keyObject);
+                currentIndex++;
+            }
             GameOverQuiz();
         }
     }
@@ -231,9 +239,6 @@ public class QuestionManager : MonoBehaviour
 
     public void PopUpQuiz()
     {
-        if (!isQuizStarted)
-        {
-            isQuizTampil=true;
             waktuMulai = Time.time;
             waktuSekarang = waktuMaksimal;
             isGameOver = false;
@@ -245,17 +250,15 @@ public class QuestionManager : MonoBehaviour
             JnA.Clear();
             JnA.AddRange(originalJnA);
             isQuizStarted = true;
-        }
     }
 
-    private void KeyDestroy()
+    private void KeyDestroy(GameObject keyObject)
     {
-        if (currentIndex < keyObject.Length)
-        {
-            Destroy(keyObject[currentIndex]);
-            currentIndex++;
-        }
+        keyObjects.Remove(keyObject);
+        Destroy(keyObject);
     }
+
+
 
 
     private float DapatSisaWaktu()

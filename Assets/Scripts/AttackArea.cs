@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI scoreTextUpdate;
     public QuestionManager questionManager; 
     public ButoEnemy butoEnemy;
 
@@ -21,7 +20,6 @@ public class AttackArea : MonoBehaviour
             butoEnemy.KnockBackButo();
             float damage = 1;
             butoEnemy.KenaDamage(damage);
-            scoreTextUpdate.text = questionManager.scorePlayer.ToString();
         }
     }
 }

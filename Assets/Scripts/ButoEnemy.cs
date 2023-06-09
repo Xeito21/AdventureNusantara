@@ -75,7 +75,6 @@ public class ButoEnemy : MonoBehaviour
         healthButo.UpdateHealthBar(maxHpButo, hpButo);
         if(hpButo <= 0)
         {
-            ButoMati();
             Destroy(gameObject);
         }
     }
@@ -190,11 +189,6 @@ public class ButoEnemy : MonoBehaviour
         }
 
         knockBackCounter -= Time.deltaTime;
-    }
-
-    private void ButoMati()
-    {
-        QuestionManager.Instance.scorePlayer = +1000;
     }
 
     private IEnumerator BlinkSprite(float duration)

@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Player Status")]
     [SerializeField] private int jumlahNyawa = 3;
-    [SerializeField] private int jumlahCoin = 0;
+    [SerializeField] public int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
 
     [Header("KnockBack")]
@@ -60,9 +60,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        jumlahCoin = PlayerPrefs.GetInt("JumlahCoin", 0);
         checkPointPosisi = transform.position;
     }
-
     public void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
@@ -128,6 +128,7 @@ public class PlayerManager : MonoBehaviour
 
     void GameOver()
     {
+        PlayerPrefs.SetInt("JumlahCoin", jumlahCoin);
         karakterSprite.GetComponent<SpriteRenderer>().enabled = false;
         playerMovement.rb.simulated = false;
         audioManager.Stop("BGM");

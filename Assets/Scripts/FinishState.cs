@@ -11,20 +11,22 @@ public class FinishState : MonoBehaviour
     [Header("Stars")]
     [SerializeField] private GameObject[] starsObject;
 
-    [Header("Teks")]
-    [SerializeField] private TextMeshProUGUI scoreFinish;
-
     [Header("References")]
     public QuestionManager questionManager;
+    public PlayerManager playerManager;
 
 
+    private void Awake()
+    {
+        playerManager = FindObjectOfType<PlayerManager>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             finishPanel.SetActive(true);
             UpdateStars();
-            UpdateScore();
+            SavePlayerStatus();
         }
     }
 
@@ -57,8 +59,9 @@ public class FinishState : MonoBehaviour
         }
     }
 
-    private void UpdateScore()
+    public void SavePlayerStatus()
     {
-        scoreFinish.text = questionManager.scorePlayer.ToString();
+        PlayerPrefs.SetInt("JumlahCoin", playerManager.jumlahCoin);
+        PlayerPrefs.SetInt("ScorePlayer", questionManager.scorePlayer);
     }
 }

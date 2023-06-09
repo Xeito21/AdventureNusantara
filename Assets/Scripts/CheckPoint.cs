@@ -6,19 +6,18 @@ public class CheckPoint : MonoBehaviour
 {
     [Header("Sprites Bendera")]
     public Sprite passive, active;
-    Collider2D coll;
+    [SerializeField] private Collider2D coll;
 
     [Header("Respawn")]
     public Transform respawnPoint;
 
     [Header("References")]
-    PlayerManager playerManager;
+    public PlayerManager playerManager;
     SpriteRenderer spriteBendera;
 
 
     private void Awake()
     {
-        playerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
         spriteBendera = GetComponent<SpriteRenderer>();
 
     }

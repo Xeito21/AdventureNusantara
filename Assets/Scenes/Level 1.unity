@@ -8661,6 +8661,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55af1baba99d77541aaf66f83dca0240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &1102768960 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2314259277097915774, guid: df495662780f1f241b1603b1df1beafd, type: 3}
+  m_PrefabInstance: {fileID: 1896522982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1103445387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15855,6 +15860,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2314259277097915769, guid: df495662780f1f241b1603b1df1beafd, type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 1102768960}
+    - target: {fileID: 2314259277097915769, guid: df495662780f1f241b1603b1df1beafd, type: 3}
       propertyPath: active
       value: 
       objectReference: {fileID: 21300000, guid: fa929839eba01492aab408ae7cdfb7b8, type: 3}
@@ -15862,6 +15871,10 @@ PrefabInstance:
       propertyPath: passive
       value: 
       objectReference: {fileID: 21300000, guid: 990225f8247d57b4186ea7219f4a726c, type: 3}
+    - target: {fileID: 2314259277097915769, guid: df495662780f1f241b1603b1df1beafd, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 1571830148}
     - target: {fileID: 2314259277097915772, guid: df495662780f1f241b1603b1df1beafd, type: 3}
       propertyPath: m_SortingOrder
       value: -1
@@ -23020,6 +23033,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
+      propertyPath: keyObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
       propertyPath: pesanHasil.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -23043,6 +23060,18 @@ PrefabInstance:
       propertyPath: cekJawaban.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
+      propertyPath: keyObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 214933407}
+    - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
+      propertyPath: keyObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1992039007}
+    - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
+      propertyPath: keyObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 559034153}
     - target: {fileID: 5558025349339975116, guid: a31bec6cd61afb744b7e2902b176949b, type: 3}
       propertyPath: pesanHasil.Array.data[0]
       value: 
@@ -23500,6 +23529,22 @@ PrefabInstance:
       propertyPath: nyawaObject.Array.data[2]
       value: 
       objectReference: {fileID: 1963880964}
+    - target: {fileID: 7060917785261309439, guid: a47bc336cc17be64482e8622c7fe0266, type: 3}
+      propertyPath: m_Size.x
+      value: 0.31030345
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060917785261309439, guid: a47bc336cc17be64482e8622c7fe0266, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7540639
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060917785261309439, guid: a47bc336cc17be64482e8622c7fe0266, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0011020899
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060917785261309439, guid: a47bc336cc17be64482e8622c7fe0266, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2552726
+      objectReference: {fileID: 0}
     - target: {fileID: 7060917786415379092, guid: a47bc336cc17be64482e8622c7fe0266, type: 3}
       propertyPath: butoEnemy
       value: 
