@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,13 +11,19 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Player Status")]
     [SerializeField] private int jumlahNyawa = 3;
-    [SerializeField] private int jumlahCoin = 0;
+    [SerializeField] public int jumlahCoin = 0;
     [SerializeField] private int jumlahKey = 0;
+
+    [Header("KnockBack")]
+    [SerializeField] private float knockbackCounter;
+    [SerializeField] private float knockbackTotalTime;
+    [SerializeField] private float knockBackForce;
+
 
     [Header("Player")]
     [SerializeField] private SpriteRenderer karakterSprite;
+    [SerializeField] private Rigidbody2D rb;
     Vector2 checkPointPosisi;
-    
 
     [Header("GameObject")]
     [SerializeField] private GameObject[] nyawaObject;
@@ -29,35 +36,47 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI[] labelKalah;
+    [SerializeField] private TextMeshProUGUI heartLabel;
+
 
     [Header("References")]
     public QuestionManager questionManager;
+    public AudioManager audioManager;
     public PlayerMovement playerMovement;
     public CameraManager cameraManager;
     public static PlayerManager Instance;
 
+    [Header("Boolean")]
+    private bool knockFromRight;
 
-
-    void Awake() 
+    void Awake()
     {
         Instance = this;
+        questionManager = FindObjectOfType<QuestionManager>();
         playerMovement = GetComponent<PlayerMovement>();
         cameraManager = FindObjectOfType<CameraManager>();
-
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Start()
     {
+        jumlahCoin = PlayerPrefs.GetInt("JumlahCoin", 0);
         checkPointPosisi = transform.position;
     }
-
     public void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
             case "Heart":
-                IncreaseHearts(1);
-                Destroy(other.gameObject);
+                if(jumlahNyawa < 3)
+                {
+                    IncreaseHearts(1);
+                    Destroy(other.gameObject);
+                }
+                else
+                {
+                    StartCoroutine(HeartText("Heart anda sudah Penuh!", 2f));
+                }
                 break;
             case "Coin":
                 IncreaseCoins(1);
@@ -68,11 +87,21 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Obstacle":
                 TerkenaDamage();
+                ApplyKnockBackObs();
+                if (other.transform.position.y <= transform.position.y)
+                {
+                    knockFromRight = true;
+                }
+                if (other.transform.position.y > transform.position.y)
+                {
+                    knockFromRight = false;
+                }
                 break;
             default:
                 break;
         }
     }
+
     public void TerkenaDamage()
     {
         jumlahNyawa -= 1;
@@ -85,10 +114,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
-    void GameOver() 
+    public void DamageJatuh()
     {
-        Time.timeScale = 0f;
+        jumlahNyawa -= 1;
+        HealthUpdate();
+        StartCoroutine(BlinkSprite(0.5f));
+
+        if (jumlahNyawa <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+        PlayerPrefs.SetInt("JumlahCoin", jumlahCoin);
+        karakterSprite.GetComponent<SpriteRenderer>().enabled = false;
+        playerMovement.rb.simulated = false;
+        audioManager.Stop("BGM");
         GameOverUI.SetActive(true);
         int randomIndex = Random.Range(0, labelKalah.Length);
         for (int i = 0; i < labelKalah.Length; i++)
@@ -99,10 +142,9 @@ public class PlayerManager : MonoBehaviour
                 labelKalah[i].gameObject.SetActive(false);
         }
     }
-    
+
     void HealthUpdate()
     {
-
         for (int i = 0; i < nyawaObject.Length; i++)
         {
             if (i < jumlahNyawa)
@@ -114,13 +156,14 @@ public class PlayerManager : MonoBehaviour
 
     public void IncreaseHearts(int amount)
     {
-        jumlahNyawa += amount;
-        HealthUpdate();
+            jumlahNyawa += amount;
+            HealthUpdate();
+
     }
+
     public void IncreaseCoins(int counter)
     {
         jumlahCoin += counter;
-        Debug.Log(jumlahCoin.ToString());
         coinText.text = jumlahCoin.ToString();
     }
 
@@ -144,8 +187,7 @@ public class PlayerManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             elapsedTime += 0.2f;
         }
-
-        karakterSprite.color = originalColor;
+       karakterSprite.color = Color.white;
     }
 
     public void UpdateCheckpoint(Vector2 pos)
@@ -153,19 +195,50 @@ public class PlayerManager : MonoBehaviour
         checkPointPosisi = pos;
     }
 
-
     public IEnumerator HidupKembali(float duration)
     {
-        yield return new WaitForSeconds(duration);
+        if (jumlahNyawa > 0)
+        {
+            yield return new WaitForSeconds(duration);
+            playerMovement.rb.velocity = Vector2.zero;
+            transform.localScale = Vector3.zero;
+            playerMovement.rb.simulated = false;
+            transform.position = checkPointPosisi;
+            transform.localScale = Vector3.one;
+            HealthUpdate();
+            cameraManager.EnableVirtualCamera();
+            playerMovement.rb.simulated = true;
+        }
+        else
+        {
+            cameraManager.DisableVirtualCamera();
+            playerMovement.rb.simulated = false;
+        }
 
-        playerMovement.rb.velocity = Vector2.zero;
-        transform.localScale = Vector3.zero;
-        playerMovement.rb.simulated = false;
-        transform.position = checkPointPosisi;
-        transform.localScale = Vector3.one;
-        HealthUpdate();
-        cameraManager.EnableVirtualCamera();
-        playerMovement.rb.simulated = true;
     }
 
+    private void ApplyKnockBackObs()
+    {
+        if (knockFromRight == true)
+        {
+            rb.velocity = new Vector2(-knockBackForce, knockBackForce);
+        }
+        if (knockFromRight == false)
+        {
+            rb.velocity = new Vector2(knockBackForce, knockBackForce);
+        }
+
+        knockbackCounter -= Time.deltaTime;
+    }
+
+
+    private IEnumerator HeartText(string text, float duration)
+    {
+        heartLabel.text = text;
+        heartLabel.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(duration);
+
+        heartLabel.gameObject.SetActive(false);
+    }
 }

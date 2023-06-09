@@ -1,20 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float horizontal;
-    private float speed = 8f;
-    private float jumpPower = 16f;
-    private bool isFacingRight = true;
-    private Vector2 directionalInput;
-
-    [SerializeField] public Rigidbody2D rb;
+    [Header("Player")]
+    [SerializeField] private float jumpPower;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] public Rigidbody2D rb;
+    public float knockBackForce;
+    public float knockBackCounter;
+    public float knockBackTotalTime;
 
-    // Update is called once per frame
+    [Header("Transform")]
+    private float horizontal;
+    private float speed = 5f;
+    private Vector2 directionalInput;
+
+    [Header("Boolean")]
+    private bool isFacingRight = true;
+    public bool knockFromRight;
+
+
+    [Header("References")]
+    public static PlayerMovement Instance;
+
+
+    private void Awake()
+    {
+        Instance = this;
+        rb = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -36,10 +54,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(knockBackCounter <= 0)
+        {
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        }
+        else
+        {
+            if(knockFromRight == true)
+            {
+                rb.velocity = new Vector2(-knockBackForce, knockBackForce);
+            }
+            if(knockFromRight == false)
+            {
+                rb.velocity = new Vector2(knockBackForce, knockBackForce);
+            }
 
-        //  PlayerManager.Instance.animPlayer.SetFloat("speed",Mathf.Abs(horizontal) );
+            knockBackCounter -=Time.deltaTime;
+        }
 
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+
     }
     void PlayJumpAnimation()
     {
@@ -63,11 +97,12 @@ public class PlayerMovement : MonoBehaviour
         // print(directionalInput);
 
     }
-    private bool isGrounded()
+    public bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-
     }
+
+
     private void Flip()
     {
         if (isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)
@@ -78,4 +113,6 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+
+
 }

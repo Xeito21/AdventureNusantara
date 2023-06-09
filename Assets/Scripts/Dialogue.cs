@@ -31,7 +31,7 @@ public class Dialogue : MonoBehaviour
         {
             return;
         }
-        if(waitForNext && Input.GetKeyDown(KeyCode.X))
+        if(waitForNext && Input.GetKeyDown(KeyCode.E))
         {
             waitForNext = false;
             index++;

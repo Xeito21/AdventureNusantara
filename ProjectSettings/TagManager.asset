@@ -9,6 +9,8 @@ TagManager:
   - Coin
   - Key
   - Obstacle
+  - PatrolPoint
+  - bataskejar
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Player
   - Ground
   - NPC
-  - 
+  - BG
   - 
   - 
   - 
@@ -45,4 +47,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Top
+    uniqueID: 217148907
+    locked: 0
+  - name: Back
+    uniqueID: 3094450415
+    locked: 0
+  - name: BG
+    uniqueID: 3124413841
     locked: 0

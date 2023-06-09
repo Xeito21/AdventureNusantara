@@ -4,23 +4,36 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("Attack")]
+    [SerializeField] private float timeAttack = 1f;
+
+    [Header("Target")]
     private GameObject attackArea = default;
-    private bool attacking = false;
-    private float timeAttack = 0.25f;
+
+    [Header("Cooldown")]
     private float timer = 0f;
 
+    [Header("Boolean")]
+    private bool attacking = false;
+
+
+    [Header("References")]
+    private PlayerMovement playerMovement;
+    public ButoEnemy butoEnemy;
 
     void Start()
     {
         attackArea = transform.GetChild(0).gameObject;
+        playerMovement = GetComponent<PlayerMovement>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && PlayerManager.Instance.animPlayer.GetBool("isGrounded"))
         {
-            Attack();
+            if(!attacking )
+            {
+                Attack();
+            }
         }
         if (attacking)
         {
@@ -38,5 +51,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attacking = true;
         attackArea.SetActive(attacking);
+        PlayerManager.Instance.animPlayer.SetTrigger("isAttack");
     }
+
 }

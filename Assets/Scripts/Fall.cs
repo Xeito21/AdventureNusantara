@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class Fall : MonoBehaviour
 {
+    [Header("Virtual Camera")]
+    [SerializeField] private CinemachineVirtualCamera vCam;
+
+    [Header("References")]
     PlayerManager playerManager;
     CameraManager cameraManager;
-    [SerializeField] private CinemachineVirtualCamera vCam;
 
     private void Awake()
     {
@@ -16,7 +19,7 @@ public class Fall : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerManager.TerkenaDamage();
+        playerManager.DamageJatuh();
         cameraManager.DisableVirtualCamera();
         StartCoroutine(playerManager.HidupKembali(0.5f));
     }

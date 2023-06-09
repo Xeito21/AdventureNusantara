@@ -11,7 +11,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (isDetected && Input.GetKeyDown(KeyCode.X))
+        if (isDetected && Input.GetKeyDown(KeyCode.E))
         {
             dialogueScript.StartDialogue();
         }
