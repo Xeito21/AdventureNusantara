@@ -77,6 +77,12 @@ public class QuestionManager : MonoBehaviour
 
     private void Update()
     {
+        CountDownTimer();
+    }
+
+
+    private void CountDownTimer()
+    {
         if (!isGameOver && isQuizStarted)
         {
             waktuSekarang = DapatSisaWaktu();
@@ -107,6 +113,8 @@ public class QuestionManager : MonoBehaviour
 
     public void GameOverQuiz()
     {
+        AudioManager.Instance.Play("Complete");
+        AudioManager.Instance.Stop("CountDown");
         isQuizStarted = false;
         gameOverQuizPanel.SetActive(true);
         quizPanel.SetActive(false);
@@ -152,6 +160,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (!isJawabanBenarTertekan)
         {
+            AudioManager.Instance.Play("Correct");
             isJawabanBenarTertekan = true;
             scoreCounter += 1;
             JnA.RemoveAt(pertanyaanSekarang);
@@ -169,6 +178,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (!isJawabanSalahTertekan)
         {
+            AudioManager.Instance.Play("Wrong");
             isJawabanSalahTertekan = true;
             JnA.RemoveAt(pertanyaanSekarang);
             CheckJawabanBenar();
@@ -189,7 +199,8 @@ public class QuestionManager : MonoBehaviour
 
     public void SelesaiQuiz()
     {
-         isQuizTampil=false;
+
+        isQuizTampil=false;
         gameOverQuizPanel.SetActive(false);
     }
 
@@ -225,6 +236,7 @@ public class QuestionManager : MonoBehaviour
     {
         isJawabanBenarTertekan = false;
         isJawabanSalahTertekan = false;
+        AudioManager.Instance.Play("Generate");
         if (JnA.Count > 0)
         {
             pertanyaanSekarang = Random.Range(0, JnA.Count);
@@ -239,27 +251,27 @@ public class QuestionManager : MonoBehaviour
 
     public void PopUpQuiz()
     {
-            waktuMulai = Time.time;
-            waktuSekarang = waktuMaksimal;
-            isGameOver = false;
-            quizPanel.SetActive(true);
-            scoreCounter = 0;
-            pertanyaanSekarang = 0;
-            jawabanBenarCounter = 0;
-            totalPertanyaan = originalJnA.Count;
-            JnA.Clear();
-            JnA.AddRange(originalJnA);
-            isQuizStarted = true;
+        AudioManager.Instance.Play("CountDown");
+        AudioManager.Instance.Play("PopUp");
+        waktuMulai = Time.time;
+        waktuSekarang = waktuMaksimal;
+        isGameOver = false;
+        quizPanel.SetActive(true);
+        scoreCounter = 0;
+        pertanyaanSekarang = 0;
+        jawabanBenarCounter = 0;
+        totalPertanyaan = originalJnA.Count;
+        JnA.Clear();
+        JnA.AddRange(originalJnA);
+        isQuizStarted = true;
     }
 
     private void KeyDestroy(GameObject keyObject)
     {
+        AudioManager.Instance.Play("Key");
         keyObjects.Remove(keyObject);
         Destroy(keyObject);
     }
-
-
-
 
     private float DapatSisaWaktu()
     {

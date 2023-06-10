@@ -7,6 +7,7 @@ public class FinishState : MonoBehaviour
 {
     [Header("Panel")]
     public GameObject finishPanel;
+    [SerializeField] private TMP_Text scoreHasil;
 
     [Header("Stars")]
     [SerializeField] private GameObject[] starsObject;
@@ -24,7 +25,9 @@ public class FinishState : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.Play("Finish");
             finishPanel.SetActive(true);
+            scoreHasil.text = questionManager.scorePlayer.ToString();
             UpdateStars();
             SavePlayerStatus();
         }

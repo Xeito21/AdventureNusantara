@@ -35,15 +35,30 @@ public class MenuManager : MonoBehaviour
         }
 
     }
+
+    public void PositiveBtn()
+    {
+        AudioManager.Instance.Play("Button");
+    }
+
+    public void NegativeBtn()
+    {
+        AudioManager.Instance.Play("Back");
+    }
     public void StartBtn()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(11);
     }
 
     public void PauseBtn()
     {
         Time.timeScale = 0f;
         GameManager.Instance.PauseGame();
+    }
+
+    public void MateriBtn()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void ResumeBtn()

@@ -26,6 +26,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.Play("CheckPoint");
             playerManager.UpdateCheckpoint(respawnPoint.position);
             spriteBendera.sprite = active;
             coll.enabled = false;

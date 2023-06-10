@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J) && PlayerManager.Instance.animPlayer.GetBool("isGrounded"))
+        if (Input.GetKeyDown(KeyCode.Z) && PlayerManager.Instance.animPlayer.GetBool("isGrounded"))
         {
             if(!attacking )
             {
@@ -49,6 +49,7 @@ public class PlayerAttack : MonoBehaviour
     }
     private void Attack()
     {
+        AudioManager.Instance.Play("Punch");
         attacking = true;
         attackArea.SetActive(attacking);
         PlayerManager.Instance.animPlayer.SetTrigger("isAttack");

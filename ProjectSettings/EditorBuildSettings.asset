@@ -9,6 +9,33 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/Materi.unity
+    guid: 8952ec65559eb0d48a49f4b4ecb121ba
+  - enabled: 1
+    path: Assets/Scenes/DIY.unity
+    guid: 16bbf219916f35941a13a4df18640c2a
+  - enabled: 1
+    path: Assets/Scenes/Bali.unity
+    guid: c0d536cf298a9cc46babdd5ba8a18022
+  - enabled: 1
+    path: Assets/Scenes/kalbar.unity
+    guid: 3fa6a82a9c4c5c0479c6abb8fb96803b
+  - enabled: 1
+    path: Assets/Scenes/maluku.unity
+    guid: 22ee74b851d982f438c8bcbc958915e8
+  - enabled: 1
+    path: Assets/Scenes/NTT.unity
+    guid: cb21b5be7357c364f9274bebba61b410
+  - enabled: 1
+    path: Assets/Scenes/lampung.unity
+    guid: dec0bfb18adad0a47803f49ac1f2bedc
+  - enabled: 1
+    path: Assets/Scenes/papua.unity
+    guid: a8983a4a3b51a6447b22f10d0954b593
+  - enabled: 1
+    path: Assets/Scenes/sulsel.unity
+    guid: f480df82f3fc75249804a6c4435f57f7
+  - enabled: 1
     path: Assets/Scenes/LevelSelect.unity
     guid: cf80039646e88ec46b492703a69b4133
   - enabled: 1
