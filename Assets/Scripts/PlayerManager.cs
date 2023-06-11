@@ -61,8 +61,11 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         jumlahCoin = PlayerPrefs.GetInt("JumlahCoin", 0);
+        UpdatePlayer();
         checkPointPosisi = transform.position;
     }
+
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
@@ -71,10 +74,12 @@ public class PlayerManager : MonoBehaviour
                 if(jumlahNyawa < 3)
                 {
                     IncreaseHearts(1);
+                    AudioManager.Instance.Play("Heart");
                     Destroy(other.gameObject);
                 }
                 else
                 {
+                    AudioManager.Instance.Play("Warn");
                     StartCoroutine(HeartText("Heart anda sudah Penuh!", 2f));
                 }
                 break;
@@ -104,6 +109,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TerkenaDamage()
     {
+        AudioManager.Instance.Play("Hurt");
         jumlahNyawa -= 1;
         HealthUpdate();
         StartCoroutine(BlinkSprite(0.5f));
@@ -116,6 +122,7 @@ public class PlayerManager : MonoBehaviour
 
     public void DamageJatuh()
     {
+        AudioManager.Instance.Play("Fall");
         jumlahNyawa -= 1;
         HealthUpdate();
         StartCoroutine(BlinkSprite(0.5f));
@@ -128,6 +135,7 @@ public class PlayerManager : MonoBehaviour
 
     void GameOver()
     {
+        AudioManager.Instance.Play("GameOver");
         PlayerPrefs.SetInt("JumlahCoin", jumlahCoin);
         karakterSprite.GetComponent<SpriteRenderer>().enabled = false;
         playerMovement.rb.simulated = false;
@@ -164,6 +172,7 @@ public class PlayerManager : MonoBehaviour
     public void IncreaseCoins(int counter)
     {
         jumlahCoin += counter;
+        AudioManager.Instance.Play("Coin");
         coinText.text = jumlahCoin.ToString();
     }
 
@@ -195,6 +204,11 @@ public class PlayerManager : MonoBehaviour
         checkPointPosisi = pos;
     }
 
+
+    private void UpdatePlayer()
+    {
+        coinText.text = jumlahCoin.ToString();
+    }
     public IEnumerator HidupKembali(float duration)
     {
         if (jumlahNyawa > 0)
