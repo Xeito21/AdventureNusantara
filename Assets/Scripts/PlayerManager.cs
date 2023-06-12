@@ -92,6 +92,7 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Obstacle":
                 TerkenaDamage();
+                Debug.Log("obstacle");
                 ApplyKnockBackObs();
                 if (other.transform.position.y <= transform.position.y)
                 {
@@ -122,6 +123,7 @@ public class PlayerManager : MonoBehaviour
 
     public void DamageJatuh()
     {
+        Debug.Log("Jatuh");
         AudioManager.Instance.Play("Fall");
         jumlahNyawa -= 1;
         HealthUpdate();

@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1765,7 +1765,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      platformPack_tilesheet_71: 1185578183
+      platformPack_tilesheet_27: -2054796175
       platformPack_tilesheet_13: 669923837
       platformPack_tilesheet_18: -1707751793
       platformPack_tilesheet_34: -1822798926
@@ -1847,8 +1847,8 @@ TextureImporter:
       platformPack_tilesheet_57: -521299794
       platformPack_tilesheet_60: 898143841
       platformPack_tilesheet_75: -1813754324
+      platformPack_tilesheet_71: 1185578183
       platformPack_tilesheet_25: -2133707456
-      platformPack_tilesheet_27: -2054796175
       platformPack_tilesheet_29: 1734493443
   spritePackingTag: 
   pSDRemoveMatte: 0

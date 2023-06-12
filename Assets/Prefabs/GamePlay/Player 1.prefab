@@ -366,6 +366,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84821cd682c37644a86c8731c2880632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreTextUpdate: {fileID: 0}
   questionManager: {fileID: 0}
   butoEnemy: {fileID: 0}

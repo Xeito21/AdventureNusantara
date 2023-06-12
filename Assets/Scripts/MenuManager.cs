@@ -8,29 +8,26 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
-    [SerializeField] private int nextSceneLoad;
+    public SceneChanging changeScene;
+
 
     private void Awake()
     {
         instance = this;
     }
-    private void Start()
-    {
-        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
-    }
 
     public void NextLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 4)
+        if (SceneManager.GetActiveScene().buildIndex == 13)
         {
-            Debug.Log("TAMAT!");
+            SceneManager.LoadScene(0);
         }
         else
         {
-            SceneManager.LoadScene(nextSceneLoad);
-            if (nextSceneLoad > PlayerPrefs.GetInt("levelAt"))
+            SceneManager.LoadScene(changeScene.nextSceneLoad);
+            if (changeScene.nextSceneLoad > PlayerPrefs.GetInt("levelAt"))
             {
-                PlayerPrefs.SetInt("levelAt", nextSceneLoad);
+                PlayerPrefs.SetInt("levelAt", changeScene.nextSceneLoad);
             }
         }
 
@@ -47,7 +44,7 @@ public class MenuManager : MonoBehaviour
     }
     public void StartBtn()
     {
-        SceneManager.LoadScene(11);
+        SceneManager.LoadScene(10);
     }
 
     public void PauseBtn()
@@ -75,6 +72,16 @@ public class MenuManager : MonoBehaviour
     public void QuitBtn()
     {
         Application.Quit();
+    }
+
+    public void ForestBtn()
+    {
+        SceneManager.LoadScene(11);
+    }
+
+    public void MountainBtn()
+    {
+        SceneManager.LoadScene(12);
     }
 
     public void BackToMenu()

@@ -11,7 +11,7 @@ public class QuestionManager : MonoBehaviour
     
     [Header("Value")]
     [SerializeField] private int scoreCounter;
-    [SerializeField] public int scorePlayer;
+    //[SerializeField] public int scorePlayer;
     [SerializeField] private int pertanyaanSekarang;
     [SerializeField] private int jawabanBenarCounter = 0;
     private int currentIndex = 0;
@@ -57,6 +57,7 @@ public class QuestionManager : MonoBehaviour
     private bool isJawabanSalahTertekan = false;
 
     [Header("References")]
+    public ScoreQuiz scoreQuiz;
     public PlayerManager playerManager;
     public static QuestionManager Instance;
 
@@ -68,7 +69,6 @@ public class QuestionManager : MonoBehaviour
     private void Start()
     {
         totalPertanyaan = JnA.Count;
-        scorePlayer = PlayerPrefs.GetInt("ScorePlayer", 0);
         currentIndex = 0;
         originalJnA = new List<TanyaDanJawab>(JnA);
         gameOverQuizPanel.SetActive(false);
@@ -152,8 +152,8 @@ public class QuestionManager : MonoBehaviour
         int scoreRange = maxScore - minScore;
         int scoredPoints = Mathf.RoundToInt(scoreRange * waktuPengalian * jawabanBenarCounter);
 
-        scorePlayer += scoredPoints;
-        scoreHasil.text = scorePlayer.ToString();
+        scoreQuiz.scoreQuizPlayer += scoredPoints;
+        scoreHasil.text = scoreQuiz.scoreQuizPlayer.ToString();
     }
 
     public void Benar()
@@ -203,7 +203,6 @@ public class QuestionManager : MonoBehaviour
         isQuizTampil=false;
         gameOverQuizPanel.SetActive(false);
     }
-
     public void CheckJawabanBenar()
     {
         if (jawabanBenarCounter >= 3)
@@ -215,6 +214,13 @@ public class QuestionManager : MonoBehaviour
                 KeyDestroy(keyObject);
                 currentIndex++;
             }
+
+            // Pengecekan indeks terakhir
+            if (currentIndex >= keyObjects.Count)
+            {
+                currentIndex = keyObjects.Count - 1;
+            }
+
             GameOverQuiz();
         }
     }

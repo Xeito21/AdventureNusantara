@@ -919,7 +919,7 @@ PrefabInstance:
     - target: {fileID: 8197784380652612629, guid: b50735164b782ff468f5620f0f5f994e, type: 3}
       propertyPath: sounds.Array.data[0].audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: d03a28809a0cd794fbf695a4a1488b62, type: 3}
+      objectReference: {fileID: 8300000, guid: eaafc9a2d8d818c4ba883e5f7c89b6d2, type: 3}
     - target: {fileID: 8197784380652612629, guid: b50735164b782ff468f5620f0f5f994e, type: 3}
       propertyPath: sounds.Array.data[1].audioClip
       value: 
@@ -2136,7 +2136,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.75
+  m_fontSize: 43.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2964,7 +2964,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110.15
+  m_fontSize: 61.85
   m_fontSizeBase: 59.45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3700,7 +3700,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 108.95
+  m_fontSize: 61.1
   m_fontSizeBase: 59.45
   m_fontWeight: 400
   m_enableAutoSizing: 1
