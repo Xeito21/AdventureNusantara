@@ -26,7 +26,8 @@ public class ButoEnemy : MonoBehaviour
 
     [Header("Animator")]
     private Animator butoAnim;
-
+    [SerializeField] GameObject hitEfxGo;
+     [SerializeField]Transform efxspawn;
     [Header("Boolean")]
     [HideInInspector] public bool inRange;
     private bool attackMode;
@@ -75,9 +76,12 @@ public class ButoEnemy : MonoBehaviour
         healthButo.UpdateHealthBar(maxHpButo, hpButo);
         if(hpButo <= 0)
         {
+          GameObject efs=  (GameObject)Instantiate(hitEfxGo,efxspawn);
+          efs.transform.SetParent(null);
             Destroy(gameObject);
         }
     }
+    
     void Move()
     {
         butoAnim.SetBool("Walk", true);

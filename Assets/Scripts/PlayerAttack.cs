@@ -6,9 +6,11 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack")]
     [SerializeField] private float timeAttack = 1f;
-
+    [SerializeField] GameObject hitEfxGo;
+     [SerializeField]Transform efxspawn;
     [Header("Target")]
     private GameObject attackArea = default;
+
 
     [Header("Cooldown")]
     private float timer = 0f;
@@ -49,6 +51,7 @@ public class PlayerAttack : MonoBehaviour
     }
     private void Attack()
     {
+        Instantiate(hitEfxGo,efxspawn);
         AudioManager.Instance.Play("Punch");
         attacking = true;
         attackArea.SetActive(attacking);

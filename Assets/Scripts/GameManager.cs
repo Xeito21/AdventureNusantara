@@ -2,19 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class GameManager : MonoBehaviour
 {
     [Header("GameObject")]
     [SerializeField] private GameObject pausePanel;
+  [SerializeField] TextMeshProUGUI texTutorial;
 
     [Header("References")]
     public static GameManager Instance;
-
-
+    public GameObject tutorialGo;
+    public bool isTutorial=false;
+    int indexTut=-3;
     private void Awake()
     {
         Instance = this;
+        if(isTutorial){
+           Time.timeScale = 0f;
+            tutorialGo.SetActive(true);
+            indexTut=-2;
+            OkTutorKlik();
+        }
+    }
+
+    public void OkTutorKlik(){
+        switch(indexTut){
+                   case -3:
+            texTutorial.text= "Gako,seorang kesatria, merasa prihatin akan kepunahan kebudayaan Indonesia akibat modernisasi..";
+            break;
+                   case -2:
+            texTutorial.text= "Untuk menyelamatkannya, ia menjelajahi daerah-daerah untuk mempelajari kebudayaan setempat";
+            break;
+                     case -1:
+            texTutorial.text= "Dengan tekad yang kuat untuk melestarikan kebudayaan Indonesia, Gako berpetualang dan belajar dari berbagai daerah.";
+            break;
+            case 0:
+            texTutorial.text= "Selama perjalanannya, ia mengumpulkan kunci untuk membuka peta daerah yang belum terkenal, dan menghadapi hantu mistis yang menjaga kebudayaan misterius.";
+            break;
+            case 1:
+              texTutorial.text= "Tutorial:"+"\n"+"Tekan 'A' atau panah kiri untuk berjalan ke kiri "+"\n" +"dan 'D' atau panah kanan untuk berjalan ke kanan";
+       
+            break;
+             case 2:
+              texTutorial.text= "Tekan 'Spasi' untuk melompat";
+         
+            break;
+              case 3:
+              texTutorial.text= "Tekan 'E' untuk interaksi dengan orang";
+         
+            break;
+             case 4:
+              texTutorial.text= "Tekan 'Z' untuk menyerang musuh";
+         
+            break;
+              case 5:
+              texTutorial.text= "Selamat Bermain!";
+         
+            break;
+             case 6:
+             isTutorial=false;
+             tutorialGo.SetActive(false);
+            Time.timeScale = 1f;
+            break;
+        }
+        indexTut++;
     }
     public void PauseGame()
     {
