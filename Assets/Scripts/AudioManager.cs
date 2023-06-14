@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("muted"))
         {
-            PlayerPrefs.SetInt("muted", 0);
+            PlayerPrefs.SetInt("muted", 100);
             Load();
         }
         else

@@ -7,20 +7,26 @@ public class GameManager : MonoBehaviour
 {
     [Header("GameObject")]
     [SerializeField] private GameObject pausePanel;
-  [SerializeField] TextMeshProUGUI texTutorial;
+    [SerializeField] TextMeshProUGUI texTutorial;
+
+    [Header("Tutorial")]
+    public GameObject tutorialGo;
+    [SerializeField] private bool isTutorial = true;
+    int indexTut = -3;
 
     [Header("References")]
     public static GameManager Instance;
-    public GameObject tutorialGo;
-    public bool isTutorial=false;
-    int indexTut=-3;
+
     private void Awake()
     {
+        isTutorial = PlayerPrefs.GetInt("isTutorial", 1) == 1;
+
         Instance = this;
-        if(isTutorial){
-           Time.timeScale = 0f;
+        if (isTutorial)
+        {
+            Time.timeScale = 0f;
             tutorialGo.SetActive(true);
-            indexTut=-2;
+            indexTut = -2;
             OkTutorKlik();
         }
     }
@@ -60,10 +66,11 @@ public class GameManager : MonoBehaviour
          
             break;
              case 6:
-             isTutorial=false;
-             tutorialGo.SetActive(false);
-            Time.timeScale = 1f;
-            break;
+                isTutorial=false;
+                tutorialGo.SetActive(false);
+                Time.timeScale = 1f;
+                PlayerPrefs.SetInt("isTutorial", isTutorial ? 1 : 0);
+                break;
         }
         indexTut++;
     }

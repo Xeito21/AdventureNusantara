@@ -26,8 +26,12 @@ public class ButoEnemy : MonoBehaviour
 
     [Header("Animator")]
     private Animator butoAnim;
+
+    [Header("Particle")]
     [SerializeField] GameObject hitEfxGo;
-     [SerializeField]Transform efxspawn;
+    [SerializeField]Transform efxspawn;
+
+
     [Header("Boolean")]
     [HideInInspector] public bool inRange;
     private bool attackMode;

@@ -92,7 +92,6 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Obstacle":
                 TerkenaDamage();
-                Debug.Log("obstacle");
                 ApplyKnockBackObs();
                 if (other.transform.position.y <= transform.position.y)
                 {

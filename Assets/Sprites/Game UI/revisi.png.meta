@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 62ad7fcf2aebe1a409dc0218a62e5d3e
+guid: 427886bbc769b7347a683323b3c7da8c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CheckPoint_0
+      name: revisi_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 250
-        width: 166.66667
-        height: 250
+        x: 80
+        y: 99
+        width: 196
+        height: 205
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 121ff6d32771ccb4299fa809ff9d5822
-      internalID: 527675314
+      spriteID: 9b4b25e87002e2949bce6295436a37c7
+      internalID: -698551213
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CheckPoint_1
+      name: revisi_1
       rect:
         serializedVersion: 2
-        x: 166
-        y: 250
-        width: 166.66667
-        height: 250
+        x: 350
+        y: 89
+        width: 195
+        height: 205
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,92 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fecb15c271e2a3147be5479d3c05a254
-      internalID: -1372891084
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CheckPoint_2
-      rect:
-        serializedVersion: 2
-        x: 332
-        y: 250
-        width: 166.66667
-        height: 250
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e09b9666e4fd3824d80a386de0f8f0d5
-      internalID: 808870559
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CheckPoint_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 166.66667
-        height: 250
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4879596bd498dae4388a7c7f7ae762e6
-      internalID: -1818017847
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CheckPoint_4
-      rect:
-        serializedVersion: 2
-        x: 166
-        y: 0
-        width: 166.66667
-        height: 250
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 81381e171aa2a4a4fbfaabbf5ded2cb2
-      internalID: 1712159079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CheckPoint_5
-      rect:
-        serializedVersion: 2
-        x: 332
-        y: 0
-        width: 166.66667
-        height: 250
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 912d3fb11762346478fc6fad3021d6b6
-      internalID: 2104138948
+      spriteID: f45324136d02f484bb9edfb8192c6bc6
+      internalID: -2037833229
       vertices: []
       indices: 
       edges: []
@@ -253,12 +169,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CheckPoint_3: -1818017847
-      CheckPoint_1: -1372891084
-      CheckPoint_2: 808870559
-      CheckPoint_5: 2104138948
-      CheckPoint_0: 527675314
-      CheckPoint_4: 1712159079
+      revisi_1: -2037833229
+      revisi_0: -698551213
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
