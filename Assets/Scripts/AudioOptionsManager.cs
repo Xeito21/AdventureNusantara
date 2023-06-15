@@ -25,7 +25,7 @@ public class AudioOptionsManager : MonoBehaviour
     public void OnMusicSliderValueChange(float value)
     {
         musicVolume = value;
-        musicSliderText.text = ((int)(value * 100)).ToString();
+        musicSliderText.text = Mathf.RoundToInt(value * 100).ToString();
         AudioManager.Instance.UpdateMixerVolume();
         SaveVolumeSettings();
     }
@@ -33,7 +33,7 @@ public class AudioOptionsManager : MonoBehaviour
     public void OnSoundEffectsSliderValueChange(float value)
     {
         soundEffectsVolume = value;
-        soundEffectsSliderText.text = ((int)(value * 100)).ToString();
+        soundEffectsSliderText.text = Mathf.RoundToInt(value * 100).ToString();
         AudioManager.Instance.UpdateMixerVolume();
         SaveVolumeSettings();
     }
@@ -44,14 +44,26 @@ public class AudioOptionsManager : MonoBehaviour
         {
             musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey);
             musicSlider.value = musicVolume;
-            musicSliderText.text = ((int)(musicVolume * 100)).ToString();
+            musicSliderText.text = Mathf.RoundToInt(musicVolume * 100).ToString();
+        }
+        else
+        {
+            musicVolume = 1f;
+            musicSlider.value = musicVolume;
+            musicSliderText.text = "100";
         }
 
         if (PlayerPrefs.HasKey(SoundEffectsVolumeKey))
         {
             soundEffectsVolume = PlayerPrefs.GetFloat(SoundEffectsVolumeKey);
             soundEffectsSlider.value = soundEffectsVolume;
-            soundEffectsSliderText.text = ((int)(soundEffectsVolume * 100)).ToString();
+            soundEffectsSliderText.text = Mathf.RoundToInt(soundEffectsVolume * 100).ToString();
+        }
+        else
+        {
+            soundEffectsVolume = 1f;
+            soundEffectsSlider.value = soundEffectsVolume;
+            soundEffectsSliderText.text = "100";
         }
     }
 
@@ -59,5 +71,6 @@ public class AudioOptionsManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat(MusicVolumeKey, musicVolume);
         PlayerPrefs.SetFloat(SoundEffectsVolumeKey, soundEffectsVolume);
+        PlayerPrefs.Save();
     }
 }

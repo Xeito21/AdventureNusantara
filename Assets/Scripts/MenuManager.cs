@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
 
     public void NextLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 13)
+        if (SceneManager.GetActiveScene().buildIndex == 12)
         {
             SceneManager.LoadScene(0);
         }
