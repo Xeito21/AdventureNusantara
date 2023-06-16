@@ -62,6 +62,6 @@ public class FinishState2 : MonoBehaviour
     public void SavePlayerStatus()
     {
         PlayerPrefs.SetInt("JumlahCoin", playerManager.jumlahCoin);
-        PlayerPrefs.SetInt("LevelForest", scoreQuiz.scoreQuizPlayer);
+        PlayerPrefs.SetInt("LevelMount", scoreQuiz.scoreQuizPlayer);
     }
 }
