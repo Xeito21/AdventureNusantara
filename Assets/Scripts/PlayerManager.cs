@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Player Status")]
     [SerializeField] private int jumlahNyawa = 3;
     [SerializeField] public int jumlahCoin = 0;
-    [SerializeField] private int jumlahKey = 0;
+    [SerializeField] public int jumlahKey = 0;
 
     [Header("KnockBack")]
     [SerializeField] private float knockbackCounter;
