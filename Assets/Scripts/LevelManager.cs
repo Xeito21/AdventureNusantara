@@ -2,29 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     public Button[] lvlButtons;
-    public GameObject[] starsObjectsForest;
-    public GameObject[] starsObjectsMount;
+    public GameObject[] starGameObjectsForest;
+    public GameObject[] starGameObjectsMount;
 
     [SerializeField] private TMP_Text scoreForestText;
     [SerializeField] private TMP_Text scoreMountText;
 
-    private ScoreQuiz scoreQuiz;
-
-
-    private void Awake()
+    private void Start()
     {
-        scoreQuiz = FindObjectOfType<ScoreQuiz>();
-    }
-
-    void Start()
-    {
-
         int levelAt = PlayerPrefs.GetInt("levelAt", 11);
 
         for (int i = 0; i < lvlButtons.Length; i++)
@@ -34,44 +24,44 @@ public class LevelManager : MonoBehaviour
                 lvlButtons[i].interactable = false;
             }
         }
+
         int scoreForest = PlayerPrefs.GetInt("LevelForest", 0);
         int scoreMount = PlayerPrefs.GetInt("LevelMount", 0);
+
         scoreForestText.text = "Score : " + scoreForest.ToString();
         scoreMountText.text = "Score : " + scoreMount.ToString();
-        scoreQuiz.scoreQuizPlayer = scoreForest;
-        scoreQuiz.scoreQuizPlayer = scoreMount;
-        UpdateStarsForest(scoreForest);
-        UpdateStarsMount(scoreMount);
+
+        UpdateStars(starGameObjectsForest, scoreForest);
+        UpdateStars(starGameObjectsMount, scoreMount);
     }
 
-    private void UpdateStarsForest(int score)
+    private void UpdateStars(GameObject[] starGameObjects, int score)
     {
-        for (int i = 0; i < starsObjectsForest.Length; i++)
+        int starCount = PerhitunganBintang(score);
+
+        for (int i = 0; i < starGameObjects.Length; i++)
         {
-            if (i < score)
-            {
-                starsObjectsForest[i].SetActive(true); 
-            }
-            else
-            {
-                starsObjectsForest[i].SetActive(false); 
-            }
+            starGameObjects[i].SetActive(i < starCount);
         }
     }
 
-    private void UpdateStarsMount(int score)
+    private int PerhitunganBintang(int score)
     {
-        for (int i = 0; i < starsObjectsMount.Length; i++)
+        if (score >= 2000)
         {
-            if (i < score)
-            {
-                starsObjectsMount[i].SetActive(true);
-            }
-            else
-            {
-                starsObjectsMount[i].SetActive(false);
-            }
+            return 3;
+        }
+        else if (score >= 1000)
+        {
+            return 2;
+        }
+        else if (score >= 500)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
         }
     }
-
 }

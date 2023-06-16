@@ -11,21 +11,24 @@ public class ScoreQuiz : MonoBehaviour
     {
         int score = scoreQuizPlayer;
 
-        switch (score)
+        if (score > 2000)
         {
-            case > 2000:
-                ActivateStars(3);
-                break;
-            case >= 1000:
-                ActivateStars(2);
-                break;
-            case > 500:
-                ActivateStars(1);
-                break;
-            default:
-                break;
+            ActivateStars(3);
+        }
+        else if (score >= 1000)
+        {
+            ActivateStars(2);
+        }
+        else if (score > 500)
+        {
+            ActivateStars(1);
+        }
+        else
+        {
+            ActivateStars(0);
         }
     }
+
     private void ActivateStars(int count)
     {
         for (int i = 0; i < starsObject.Length; i++)

@@ -1724,11 +1724,11 @@ MonoBehaviour:
   lvlButtons:
   - {fileID: 1491430865}
   - {fileID: 694845577}
-  starsObjectsForest:
+  starGameObjectsForest:
   - {fileID: 1476521989}
   - {fileID: 817681510}
   - {fileID: 498092073}
-  starsObjectsMount:
+  starGameObjectsMount:
   - {fileID: 252552833}
   - {fileID: 81973550}
   - {fileID: 879477420}
